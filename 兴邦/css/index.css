@@ -1,0 +1,73 @@
+header {
+            background: linear-gradient(to right, #ff5e3e 0, #ff1679 100%);
+        }
+
+        header ul li {
+            height: 2.25rem;
+            line-height: 2.25rem;
+            text-align: center;
+            display: none;
+            color: #333;
+            position: relative;
+            font-size: 0.9rem;
+        }
+
+        header ul li.active {
+            display: block;
+        }
+        /*      #footer{  border-radius: 30px 30px 0px 0px;box-shadow: 0.01rem 0.15rem 1rem 1px rgba(0, 0, 0, 0.1);}  */
+
+        #footer ul {
+            padding: 0.3rem 0 0 0;
+        }
+
+        #footer ul li {
+            height: 2.25rem;
+            padding-top: 1.25rem;
+            padding-bottom: 1px;
+            background: url() no-repeat center 2px;
+            font-size: 0.6rem;
+            background-size: auto 1.1rem;
+            text-align: center;
+        }
+
+        #footer ul li.active {
+            color: #e6963f;
+        }
+
+        #footer ul li:nth-child(1) {
+            background-image: url(../image/yingshi.png);
+        }
+
+        #footer ul li:nth-child(2) {
+            background-image: url(../image/zhibo.png);
+        }
+
+        #footer ul li:nth-child(3) {
+            background-image: url(../image/qiangpian.png);
+        }
+
+        #footer ul li:nth-child(4) {
+            background-image: url(../image/wode.png);
+        }
+
+        #footer ul li:nth-child(1).active {
+            background-image: url(../image/yingshi2.png);
+        }
+
+        #footer ul li:nth-child(2).active {
+            background-image: url(../image/zhibo2.png);
+        }
+
+        #footer ul li:nth-child(3).active {
+            background-image: url(../image/qiangpian2.png);
+        }
+
+        #footer ul li:nth-child(4).active {
+            background-image: url(../image/wode2.png);
+        }
+
+        .flex-con {
+            overflow: auto;
+            background-color: #fff;
+        }

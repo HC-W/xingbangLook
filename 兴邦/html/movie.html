@@ -286,28 +286,27 @@
 //		var url = "https://kankan.51xingbang.com/login/login/imgad.html?callback=?";
 //      api.parseTapmode();
         $.ajax({
-        	type:"get",
-        	url:"https://kankan.51xingbang.com/login/login/imgad.html",
-        	dataType:"jsonp",
-        	jsonp : "callback",
-        	success:function(ret) {
-//      		if (ret) {
-//                alert( JSON.stringify( ret ) );
-                  console.log(ret);
-                  console.log("pp");
-//              localStorage.setItem('fxpic1', ret.msg.fxpic1);
-//              localStorage.setItem('fxurl1', ret.msg.fxurl1);
-//              localStorage.setItem('fxpic2', ret.msg.fxpic2);
-//              localStorage.setItem('fxurl2', ret.msg.fxurl2);
-//              var bpic = $api.byId('bpic');
-                //        imgdz = ret.msg.picurl;
-                //        if (ret.msg.pic!='') {
-                //          bpic.src = ret.msg.pic;
-                //        }
-                //        document.getElementById("bpic").onclick = function(){ imgUrl(); };
-//          }
-        	}
-        });
+  type: 'GET',
+  url: "https://kankan.51xingbang.com/login/login/imgad.html",
+  contentType: 'application/json',
+  dataType:'jsonp',
+  responseType:'application/json',
+  xhrFields: {
+    withCredentials: false
+  },
+  headers: {
+    'Access-Control-Allow-Credentials' : true,
+    'Access-Control-Allow-Origin':'*',
+    'Access-Control-Allow-Methods':'GET',
+    'Access-Control-Allow-Headers':'application/json',
+  },
+  success: function(data) {
+    console.log(data);
+  },
+  error: function(error) {
+    console.log("FAIL....=================");
+  }
+});
 //      $.getJSON(url,function(result) {
 //	        console.log(result);
 //	    });

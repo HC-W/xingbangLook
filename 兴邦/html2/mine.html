@@ -7,7 +7,9 @@
 	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
 	<title></title>
 	<link rel="stylesheet" type="text/css" href="../css/aui.css" />
+	<link rel="stylesheet" type="text/css" href="../css/style.css" />
 	<link rel="stylesheet" type="text/css" href="../css/style_user.css" />
+	<link rel="stylesheet" type="text/css" href="../css/index.css"/>
 	<style type="text/css">
 		html,
 		body {
@@ -50,6 +52,16 @@
 </head>
 
 <body style=" width:100%; height:100%; background-image: linear-gradient(to top, #222338,#6f5062);">
+	<header class="aui-navBar aui-navBar-fixed">
+        <ul style="width:100%">
+            <li class="border-b active"> <a class="aui-navBar-item masked" id="tietle" style="color:#fff; display:block">会员中心<i class="icon icon-Disconnect-r" style="margin-left: 10px; display:none"></i></a></li>
+        </ul>
+        <div class="aui-center" style="display:none"> <span class="aui-center-title"></span> </div>
+        <a class="aui-navBar-item" id="hbbox" style="display:none"> <img src="../image/app/defaultHongbao.png" style="position: absolute;width: 1.5rem;top: 0.3rem;right: 0.5rem;" tapmode onClick="UnloadedCompleted()">
+            <!--        <i class="icon icon-set"></i>-->
+        </a>
+    </header>
+		
 	<!--上面新框架-->
 	<!-- 顶部 -->
 	<section class="aui-scrollView">
@@ -155,7 +167,7 @@
 
 			<a class="aui-well-item">
 				<div class="aui-well-item-hd"> <img src="../image/app/card-password.png" alt=""> </div>
-				<div class="aui-well-item-bd" tapmode="" onClick="openWin('open_vip_win')">
+				<div class="aui-well-item-bd" tapmode="" onClick="openHtml('makevip')">
 					<h3>卡密激活</h3>
 				</div>
 				<span style="color:#edc525" tapmode="" onClick="recharge()"><img src="../image/app/recharge.png" style="width:20px; float:left; position:relative; top:2px; margin-right:5px;color:#fff">会员充值</span>
@@ -221,11 +233,24 @@
 			<p id="isloginOrOut" style="display:none"> </p>
 		</div>
 	</section>
+	<div id="main" class="flex-con"> </div>
+        <div id="footer" class="border-t" style="background:#18192b">
+            <ul class="flex-wrap" style="font-weight:bold">
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con">影视</li>
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con">电视</li>
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con">直播</li>
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con active">我的</li>
+            </ul>
+        </div>
 </body>
 <!--<script type="text/javascript" src="../script/api.js"></script>-->
 <script type="text/javascript">
 	var api_url = localStorage.getItem('api_url');
 	var rechargeUrl = '';
+	
+	function openHtml(html) {
+		window.location.href=html+".html";
+	}
 
 	/////  初始化执行   S /////
 	/////  apiready  一打开就执行的 函数
@@ -374,7 +399,7 @@
               }
           });
 			*/
-		}
+//		}
 		/////  初始化执行   E /////
 
 //		function recharge(){

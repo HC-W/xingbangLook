@@ -33,7 +33,7 @@ a {
 }
 
 .aui-navBar {
-    height: 70px;
+    height: 2.25rem;
     position: relative;
     display: -webkit-box;
     display: -webkit-flex;
@@ -41,7 +41,7 @@ a {
     display: flex;
     background-color: none;
     z-index: 1002;
-    background: #ffffff;
+    background: #121325;
 }
 
 .aui-navBar-item {
