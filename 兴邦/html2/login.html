@@ -108,32 +108,37 @@ function openWin(name) {
 	//            vScrollBarEnabled:false
 	//        });
 }
+function tishi(content,time) {
+		$("#tishi").html(content);
+		$(".tishi").addClass("animated fadeInUp").show();
+		setTimeout(function() {
+			$(".tishi").removeClass("animated fadeInUp").hide();
+		}, time);
+	}
 
 function loginTo() {
 	var username = $("#username").val();
 	var password = $("#password").val();
 
 	if(username == '') {
-		$("#tishi").html("ε=(´ο｀*))) 调皮~ &nbsp;&nbsp;&nbsp;&nbsp; 账号都没输入");
-		$(".tishi").addClass("animated fadeInUp").show();
-		setTimeout(function() {
-			$(".tishi").removeClass("animated fadeInUp").hide();
-		}, 5000);
+		tishi("ε=(´ο｀*))) 调皮~ &nbsp;&nbsp;&nbsp;&nbsp; 账号都没输入",5000);
 		return;
 	}
 	if(password == '') {
-		$("#tishi").html("ε=(´ο｀*))) 哎呀~&nbsp;&nbsp;&nbsp;密码还没输入");
-		$(".tishi").addClass("animated fadeInUp").show();
-		setTimeout(function() {
-			$(".tishi").removeClass("animated fadeInUp").hide();
-		}, 5000);
+//		$("#tishi").html("ε=(´ο｀*))) 哎呀~&nbsp;&nbsp;&nbsp;密码还没输入");
+//		$(".tishi").addClass("animated fadeInUp").show();
+//		setTimeout(function() {
+//			$(".tishi").removeClass("animated fadeInUp").hide();
+//		}, 5000);
+		tishi("ε=(´ο｀*))) 哎呀~&nbsp;&nbsp;&nbsp;密码还没输入",5000);
 		return;
 	}
-	$("#tishi").html("ヾ(◍°∇°◍)ﾉ&nbsp;&nbsp;&nbsp;努力验证中……");
-	$(".tishi").addClass("animated fadeInUp").show();
-	setTimeout(function() {
-		$(".tishi").removeClass("animated fadeInUp").hide();
-	}, 5000);
+//	$("#tishi").html("ヾ(◍°∇°◍)ﾉ&nbsp;&nbsp;&nbsp;努力验证中……");
+//	$(".tishi").addClass("animated fadeInUp").show();
+//	setTimeout(function() {
+//		$(".tishi").removeClass("animated fadeInUp").hide();
+//	}, 5000);
+	tishi("ヾ(◍°∇°◍)ﾉ&nbsp;&nbsp;&nbsp;努力验证中……",5000);
 	//请求数据库并存储用户信息
 	var api_url = localStorage.getItem('api_url');
 	$.ajax({
@@ -167,7 +172,7 @@ function loginTo() {
 					//                  duration: 5000
 					//              });
 //					alert("(#^.^#) 登陆成功！");
-					tihsi("(#^.^#) 登陆成功！");
+					tishi("(#^.^#) 登陆成功！",5000);
 					//alert( JSON.stringify( ret ) );
 					localStorage.setItem('user_id', ret.msg['id']);
 					localStorage.setItem('user_name', username);
@@ -182,7 +187,7 @@ function loginTo() {
 					localStorage.setItem('url2', ret.msg['url2']);
 					localStorage.setItem('url3', ret.msg['url3']);
 					localStorage.setItem('url4', ret.msg['url4']);
-//					window.location.href = document.referrer;
+					window.location.href = document.referrer;
 					//                api.sendEvent({
 					//                  name: 'newLoingdata',
 					//                  extra: {
@@ -202,7 +207,7 @@ function loginTo() {
 				}
 			} else {
 				//            api.hideProgress();
-				alert('(ｷ｀ﾟДﾟ´)!!  网络错误 请检查！');
+				tishi('(ｷ｀ﾟДﾟ´)!!  网络错误 请检查！',5000);
 				//                原弹窗提示
 				//                api.toast({
 				//                    msg: '(ｷ｀ﾟДﾟ´)!!  网络错误 请检查！',
@@ -212,16 +217,11 @@ function loginTo() {
 				//alert( JSON.stringify( err ) );
 				return;
 			}
+		},
+		error: function() {
+			console.log("error-------");
 		}
 	});
-}
-
-function tihsi(content) {
-	$("#tishi").html(content);
-	$(".tishi").addClass("animated fadeInUp").show();
-	setTimeout(function() {
-		$(".tishi").removeClass("animated fadeInUp").hide();
-	}, 5000);
 }
 </script>
 </html>

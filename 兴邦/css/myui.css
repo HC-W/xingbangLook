@@ -257,18 +257,18 @@ img {
 
 .sp-content .rule h3 p {
 	position: relative;
-	top: -.25rem;
+	top: -.55rem;
 	color: #787878;
 	letter-spacing: 2px;
 	background: #fffae4;
-	width: 1.5rem;
+	width: 3.5rem;
 	margin: auto;
 	font-weight: 700
 }
 
 .sp-content .rule ul {
 	padding-left: .3rem;
-	padding-top: .3rem
+	padding-top: .6rem
 }
 
 .sp-content .rule ul li {

@@ -197,12 +197,20 @@
     <div id="main" class="flex-con"> </div>
         <div id="footer" class="border-t" style="background:#18192b">
             <ul class="flex-wrap" style="font-weight:bold">
-                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con active">影视</li>
-                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con">电视</li>
-                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con">直播</li>
-                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con">我的</li>
+                <li tapmode="hover" class="flex-con active">影视</li>
+                <li tapmode="hover" onclick="openHtml('iframe');" class="flex-con">电视</li>
+                <li tapmode="hover" onclick="openHtml('zhibo');" class="flex-con">直播</li>
+                <li tapmode="hover" onclick="openHtml('mine');" class="flex-con">我的</li>
             </ul>
         </div>
+        <div class="tishi"><span id="tishi"></span></div>
+  <div class="middle" style="padding: 0.6rem;background-color: rgba(95, 96, 91, 0.7) !important;margin: 0 auto;font-size: 0.6rem;border-radius: 0.5rem;color: white;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);"></div>
+        <div class="bg"></div>
+        <div class="tanchu">
+			<p class="tanchu_title" style="font-size: 1.3rem;color: #000;"></p>
+			<p class="tanchu_msg" style="font-size: .9rem;margin-top: .6rem;color: #000;"></p>
+			<p style="font-size: .8rem;color: #4FA81F;text-align: right;margin-top: 1.6rem;" onclick="bgHide()">确定</p>
+		</div>
 </body>
 <script type="text/x-dot-template" id="bannertpl">
     {{~ it.data : value : index }}
@@ -253,7 +261,36 @@
     var imgdz = '';
 
     var api_url = localStorage.getItem('api_url');
-
+	function openHtml(name) {
+		console.log(name);
+		window.location.href=name+".html";
+	}
+	$(".tishi").hide();
+    $(".bg").hide();
+	$(".tanchu").hide();
+	$(".bg").hide();
+	$(".middle").hide();
+	
+	function openTab(html) {
+		window.location.href=html+".html";
+	}
+	function tanChu(title,msg) {
+    	$(".bg").show();
+    	$(".tanchu").show();
+    	$(".tanchu_title").html(title);
+    	$(".tanchu_msg").html(msg);
+    }
+	function bgHide() {
+    	$(".bg").hide();
+    	$(".tanchu").hide();
+    }
+	function tishi(content,time) {
+		$("#tishi").html(content);
+		$(".tishi").addClass("animated fadeInUp").show();
+		setTimeout(function() {
+			$(".tishi").removeClass("animated fadeInUp").hide();
+		}, time);
+	}
     /////  初始化执行   S /////
     /////  apiready  一打开就执行的 函数
 
@@ -283,43 +320,17 @@
 
 //      getBanner();
 //      getNav();
-//		var url = "https://kankan.51xingbang.com/login/login/imgad.html?callback=?";
 //      api.parseTapmode();
-//      $.ajax({
-//type: 'GET',
-//url: "https://kankan.51xingbang.com/login/login/imgad.html",
-//contentType: 'application/json',
-//dataType:'jsonp',
-//responseType:'application/json',
-//xhrFields: {
-//  withCredentials: false
-//},
-//headers: {
-//  'Access-Control-Allow-Credentials' : true,
-//  'Access-Control-Allow-Origin':'*',
-//  'Access-Control-Allow-Methods':'GET',
-//  'Access-Control-Allow-Headers':'application/json',
-//},
-//success: function(data) {
-//  console.log(data);
-//},
-//error: function(error) {
-//  console.log("FAIL....=================");
-//}
-//});
         $.ajax({
 		  type: 'get',
 		  url: "https://kankan.51xingbang.com/login/login/imgad.html",
 		  dataType:'json',
-//		data: {},
-//		  headers: {
-//		    'Access-Control-Allow-Credentials' : true,
-//		    'Access-Control-Allow-Origin':'*',
-//		    'Access-Control-Allow-Methods':'GET',
-//		    'Access-Control-Allow-Headers':'application/json',
-//		  },
-		  success: function(data) {
-		    console.log(data);
+		  success: function(ret) {
+		    console.log(ret);
+		    localStorage.setItem('fxpic1', ret.msg.fxpic1);
+            localStorage.setItem('fxurl1', ret.msg.fxurl1);
+            localStorage.setItem('fxpic2', ret.msg.fxpic2);
+            localStorage.setItem('fxurl2', ret.msg.fxurl2);
 		  },
 		  error: function(error) {
 		    console.log("FAIL....=================");
@@ -331,9 +342,9 @@
 //	    });
 
         //////////////////////    图片懒加载  S  //////////////////////
-//      new auiLazyload({
-//          errorImage: '../image/error-img.jpg'
-//      });
+        new auiLazyload({
+            errorImage: '../image/error-img.jpg'
+        });
 
         //////////////////////    图片懒加载  E  //////////////////////
 
@@ -364,46 +375,48 @@
     //////////////////////   打开APP时 获取Banner和图标  方法    DataLoading    定时     S //////////////////////
 
     //定时执行数据加载
-//  var timer = setInterval(function() {
-//      DataLoading();
-//  }, 1000)
+    var timer = setInterval(function() {
+        DataLoading();
+    }, 1000)
 
     //判断是否服务器通信成功
-//  function DataLoading() {
-//
-//      api.ajax({
-//          url: api_url + '/login/login/banben.html',
-//          method: 'get'
-//      }, function(ret, err) {
-//          if (ret) {
-//
-//              getBanner(); //获取Banner
-//              getNav(); //获取Nav
-//              //alert( JSON.stringify( ret ) );
-//              /*  关闭提示
-//                        api.toast({
-//                            msg: '数据已更新',
-//                            duration: 1000
-//                        });
-//              */
-//
-//              clearInterval(timer); // 获取成功 清除定时器
-//          }
-//          /*else {
-//                   api.toast({
-//                       msg: '数据获取失败 请检查网络',
-//                       duration: 1000
-//                   });
-//
-//                     //alert( JSON.stringify( err ) );
-//                 }
-//                 */
-//      });
+    function DataLoading() {
+
+        $.ajax({
+            url: api_url + '/login/login/banben.html',
+            type: 'get',
+            dataType: 'json',
+            success: function(ret){
+	            if (ret) {
+	
+	                getBanner(); //获取Banner
+//	                getNav(); //获取Nav
+	                //alert( JSON.stringify( ret ) );
+	                /*  关闭提示
+	                          api.toast({
+	                              msg: '数据已更新',
+	                              duration: 1000
+	                          });
+	                */
+	
+	                clearInterval(timer); // 获取成功 清除定时器
+	            }
+	            /*else {
+	                     api.toast({
+	                         msg: '数据获取失败 请检查网络',
+	                         duration: 1000
+	                     });
+	
+	                       //alert( JSON.stringify( err ) );
+	                   }
+                   */
+            }
+        });
 
 
 
 
-//  }
+    }
 
     //////////////////////   打开APP时 获取Banner和图标  方法    DataLoading    定时     E //////////////////////
 
@@ -563,98 +576,107 @@
 
 
     //////////////////////    菜单导航获取  方法  getBanner  S  //////////////////////
-//  function getBanner() {
-//      var bannerid = $api.byId('slidebox');
-//      var bannertpl = $api.byId('bannertpl');
-//
-//      api.ajax({
-//          url: api_url + '/login/login/banben.html',
-//          method: 'get'
-//      }, function(ret, err) {
-//          if (ret) {
-//              localStorage.setItem('user_advert', ret.advert);
-//              var advert = $api.byId('gonggao');
-//              advert.innerHTML = localStorage.getItem('user_advert');
-//              localStorage.setItem('jx_url1', ret.banben);
-//              localStorage.setItem('jx_url2', ret.url);
-//              localStorage.setItem('jx_url3', ret.url2);
-//              localStorage.setItem('jx_url4', ret.url3);
-//              localStorage.setItem('jx_url5', ret.url4);
-//              localStorage.setItem('jx_url6', ret.url5);
-//              localStorage.setItem('hburl', ret.hburl);
-//          } else {
-//              //alert( JSON.stringify( err ) );
-//          }
-//      });
-//
-//
-//
-//      api.ajax({
-//          url: api_url + '/app/nav',
-//          method: 'get',
-//      }, function(ret, err) {
-//          if (ret) {
-//              //渲染模板
-//              var pagefn = doT.template(bannertpl.text);
-//              bannerid.innerHTML = pagefn(ret.banner);
-//              //      alert( JSON.stringify( ret.banner ) );
-//              banNer();
-//
-//          }
-//          /*  去掉无网络弹窗提示else {
-//              alert( '网络错误' );
-//              api.hideProgress();
-//          }
-//          */
-//      });
-//  }
+    function getBanner() {
+        var bannerid = $('#slidebox');
+        var bannertpl = $('#bannertpl');
+
+        $.ajax({
+            url: api_url + '/login/login/banben.html',
+            type: 'get',
+            dataType: 'json',
+            success: function(ret){
+//          	console.log(ret);
+	            if (ret) {
+	                localStorage.setItem('user_advert', ret.advert);
+	                var advert = $('#gonggao');
+	                advert[0].innerHTML = localStorage.getItem('user_advert');
+	                localStorage.setItem('jx_url1', ret.banben);
+	                localStorage.setItem('jx_url2', ret.url);
+	                localStorage.setItem('jx_url3', ret.url2);
+	                localStorage.setItem('jx_url4', ret.url3);
+	                localStorage.setItem('jx_url5', ret.url4);
+	                localStorage.setItem('jx_url6', ret.url5);
+	                localStorage.setItem('hburl', ret.hburl);
+	            } else {
+	                //alert( JSON.stringify( err ) );
+	            }
+	        }
+        });
+
+
+
+        $.ajax({
+            url: api_url + '/app/nav',
+            type: 'get',
+            dataType: 'json',
+            success: function(ret) {
+	            if (ret) {
+	            	console.log(ret);
+	                //渲染模板
+	                var pagefn = doT.template(bannertpl.text);
+	                bannerid[0].innerHTML = pagefn(ret.banner);
+	                //      alert( JSON.stringify( ret.banner ) );
+	                banNer();
+	
+	            }
+	            /*  去掉无网络弹窗提示else {
+	                alert( '网络错误' );
+	                api.hideProgress();
+	            }
+	            */
+	        }
+        });
+    }
 
     //////////////////////    菜单导航获取  方法  getBanner  E  //////////////////////
 
 
     //////////////////////    轮播图获取  方法  getNav  S  //////////////////////
-//  function getNav() {
-//      var navid = $api.byId('div_list_f');
-//      var navtpl = $api.byId('navcattpl');
-//      var navtjid = $api.byId('div_list');
-//      var navtjtpl = $api.byId('navtjtpl');
-//      var lrid = $api.byId('lrbox');
-//      var lrtpl = $api.byId('lrtpl');
-//      var wztid = $api.byId('wzbox_top');
-//      var wzttpl = $api.byId('wzttpl');
-//      var wzbid = $api.byId('wzbox_bottom');
-//      var wzbtpl = $api.byId('wzbtpl');
-//      api.ajax({
-//          url: api_url + '/app/nav',
-//          method: 'get',
-//      }, function(ret, err) {
-//          if (ret) {
-//              //渲染模板
-//              var pagefn = doT.template(navtpl.text);
-//              // alert(pagefn(ret.vip));
-//              navid.innerHTML = pagefn(ret.vip);
-//              var pagefn = doT.template(navtjtpl.text);
-//              navtjid.innerHTML = pagefn(ret.tj);
-//              var fn = doT.template(lrtpl.text);
-//              lrid.innerHTML = fn(ret.lr);
-//              var fns = doT.template(wzttpl.text);
-//              var wzd = ret.wz;
-//              wztid.innerHTML = fns(wzd.data[0]);
-//              var fn = doT.template(wzbtpl.text);
-//              wzbid.innerHTML = fn(wzd.data[1]);
-//              //        alert( JSON.stringify( ret ) );
-//
-//
-//          }
-//          /*  去掉无网络弹窗提示
-//          else {
-//              alert( '网络错误' );
-//              api.hideProgress();
-//          }
-//          */
-//
-//      });
-//  }
+    function getNav() {
+        var navid = $('#div_list_f');
+        var navtpl = $('#navcattpl');
+        var navtjid = $('#div_list');
+        var navtjtpl = $('#navtjtpl');
+        var lrid = $('#lrbox');
+        var lrtpl = $('#lrtpl');
+        var wztid = $('#wzbox_top');
+        var wzttpl = $('#wzttpl');
+        var wzbid = $('#wzbox_bottom');
+        var wzbtpl = $('#wzbtpl');
+        $.ajax({
+        	type: 'get',
+            url: api_url + '/app/nav',
+//          type: 'get',
+            dataType: 'json',
+            success: function(ret) {
+	            if (ret) {
+	                //渲染模板
+	                var pagefn = doT.template(navtpl.text);
+	                // alert(pagefn(ret.vip));
+	                navid.innerHTML = pagefn(ret.vip);
+	                var pagefn = doT.template(navtjtpl.text);
+	                navtjid[0].innerHTML = pagefn(ret.tj);
+	                var fn = doT.template(lrtpl.text);
+	                lrid[0].innerHTML = fn(ret.lr);
+	                var fns = doT.template(wzttpl.text);
+	                var wzd = ret.wz;
+	                wztid[0].innerHTML = fns(wzd.data[0]);
+	                var fn = doT.template(wzbtpl.text);
+	                wzbid[0].innerHTML = fn(wzd.data[1]);
+	                        alert( JSON.stringify( ret ) );
+	
+	
+	            }
+	            /*  去掉无网络弹窗提示
+	            else {
+	                alert( '网络错误' );
+	                api.hideProgress();
+	            }
+	            */
+	        }
+
+        });
+    }
     //////////////////////    轮播图获取  方法  getNav  E  //////////////////////
 
 
@@ -679,70 +701,73 @@
 
 
     ///////广告图片 和小图标广告 点击访问 方法    imgUrl   S   ///////
-//  function imgUrl(url) {
+    function imgUrl(url) {
 
 
-//
-//      if (url == '') {
-//
-//
+        if (url == '') {
+
+
 //          api.toast({
 //              msg: '暂无详情'
 //          });
-//
-//      } else {
-//
-//
-//          //网络连接判断S
-//
-//
-//
-//
-//          api.ajax({
-//              url: api_url + '/login/login/banben.html',
-//              method: 'get'
-//          }, function(ret, err) {
-//              if (ret) {
-//
-//                  //网络正常   跳转
-//
-//                  api.toast({
-//                      msg: '加载中'
-//                  });
-//
-//
-//
-//                  api.openWin({
-//                      name: 'h5',
-//                      url: './h5.html',
-//                      pageParam: {
-//                          url: url
-//                      }
-//                  });
-//
-//
-//
-//
-//
-//              } else {
-//
-//                  //网络连接失败 进行提示
-//                  //          NetworkConnectionFailurePrompt();
-//
-//                  api.toast({
-//                      msg: '请检查网络是否畅通'
-//                  });
-//              }
-//
-//
-//          });
-//          //网络连接判断E
-//
-//      }
-//
-//
-//
-//  }
+			tishi('暂无详情',1000);
+        } else {
+
+
+            //网络连接判断S
+
+
+
+
+            $.ajax({
+                url: api_url + '/login/login/banben.html',
+                type: 'get',
+                dataType: 'json',
+                success: function(ret){
+	                if (ret) {
+	
+	                    //网络正常   跳转
+	
+//	                    api.toast({
+//	                        msg: '加载中'
+//	                    });
+	                    tishi('加载中',2000);
+	
+	
+	
+//	                    api.openWin({
+//	                        name: 'h5',
+//	                        url: './h5.html',
+//	                        pageParam: {
+//	                            url: url
+//	                        }
+//	                    });
+	                    window.location.href="iframe.html?iframe="+url;
+	
+	
+	
+	
+	
+	                } else {
+	
+	                    //网络连接失败 进行提示
+	                    //          NetworkConnectionFailurePrompt();
+	
+//	                    api.toast({
+//	                        msg: '请检查网络是否畅通'
+//	                    });
+	                    tishi('请检查网络是否畅通',2000);
+	                }
+				}
+
+            });
+            //网络连接判断E
+
+        }
+
+
+
+    }
     ///////广告图片 和小图标广告  点击访问 方法    imgUrl   E   ///////
 
 

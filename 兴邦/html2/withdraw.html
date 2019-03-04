@@ -1,0 +1,387 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/animate.css@3.5.2/animate.min.css" />
+
+    <style type="text/css">
+        html,
+        body {
+            /* background-image: url(../image/vip_bg.jpg);background-size:100% 100%;  */
+            background: linear-gradient(to right, #fff 0, #fff 100%);
+        }
+
+        .vip_gou_1 {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 1px 12px #ddd;
+            margin: 10px 0px 10px 0px;
+            padding: 15px 17px;
+            bottom: 10px;
+            top: 10px;
+        }
+
+        .vip_gou_2 {
+            margin-right: .5em;
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            text-align: center;
+        }
+
+        .vip_gou_3 {
+            width: 100%;
+            max-height: 100%;
+            vertical-align: top;
+            font-weight: bold;
+            background: linear-gradient(to right, #ff5e3e 0, #ff1679 100%);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .vip_gou_4 {
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .vip_gou_5 {
+            font-weight: 400;
+            font-size: 0.5rem;
+            width: auto;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            word-wrap: normal;
+            word-wrap: break-word;
+            word-break: break-all;
+            color: #c0c0c0;
+            padding-bottom: 10px;
+        }
+
+        .vip_gou_6 {
+            color: #808080;
+            font-size: 0.5rem;
+            line-height: 1.2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+        }
+
+        .vip_gou_7 {
+            font-size: 0.8rem;
+            font-style: normal;
+            background: linear-gradient(to right, #ff5e3e 0, #ff1679 100%);
+            -webkit-background-clip: text;
+            color: transparent;
+            font-weight: bold;
+        }
+
+        .vip_gou_8 {
+            background-image: -webkit-gradient(linear, left top, right top, from(#ff5e3e), to(#ff1679));
+            background-image: -webkit-linear-gradient(left, #ff5e3e, #ff1679);
+            background-image: -moz-linear-gradient(left, #ff5e3e, #ff1679);
+            background-image: linear-gradient(to right, #ff5e3e, #ff1679);
+            background-color: #f7cc13;
+            border-radius: 2px;
+            color: #fff;
+            font-size: 0.5rem;
+            font-weight: bold;
+            padding: 0.2rem 0.45rem;
+        }
+
+        .yue {
+            margin-bottom: 20px
+        }
+
+        .yue img {
+            width: 40%;
+            margin: 0 auto
+        }
+
+        .yue strong {
+            font-size: 18px;
+            color: #FFF;
+            display: block;
+            padding: 10px 0 0px
+        }
+
+        .yue span {
+            display: block;
+            color: #FFF;
+            font-size: 28px
+        }
+    </style>
+</head>
+<body style="width:100%; /*min-height:920px;*/ background-image: linear-gradient(to top, #222338,#6f5062);">
+
+  <header class="aui-navBar aui-navBar-fixed" id="aui-header">
+                  <a  onclick="closeWin()" class="aui-navBar-item aui-padded-t-15"  >
+                <i class="icon icon-back-b"></i>
+                  </a>
+                  <div class="aui-center">
+                      <span class="aui-center-title" id="title" style="color:#fff">申请提现</span>
+                  </div>
+
+
+                  <a  class="aui-navBar-item aui-padded-t-15" style="color: #725f5f;"  >
+                <i class="icon"></i>
+                  </a>
+
+              </header>
+                  <div class="br">
+
+    </div>
+    <div class="open-vip-t">
+        <div class="br"></div>
+        <div class="aui-content aui-margin-b-15">
+            <center>
+                <div class="yue"><img src="../image/qian.png" /><strong>我的积分</strong><span id="bonus">￥0.00</span></div>
+                <ul class="aui-list aui-form-list" style="width:90%">
+                    <li class="aui-list-item" style="margin-bottom:20px; background:#FFF">
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-input">
+                                <input id="amount" type="text" placeholder="请输入提现金额，例：18.88" style=" color: #ff3a5c; padding-left:10px">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="aui-list-item" style="margin-bottom:20px; background:#FFF">
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-input">
+                                <input id="account" type="text" placeholder="请输入您的支付宝账号" style=" color: #ff3a5c; padding-left:10px">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="aui-list-item" style="margin-bottom:20px; background:#FFF">
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-input">
+                                <input id="name" type="text" placeholder="请输入您的支付宝真实姓名" style=" color: #ff3a5c; padding-left:10px">
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </center>
+        </div>
+        <div class="aui-content-padded">
+            <p>
+                <div class="aui-btn-tuichu aui-btn-block" tapmode onclick="loginOff()">立 即 申 请</div>
+            </p>
+            <!-- <br><br> -->
+            <!-- <p>
+                <div class="aui-btn-tuichu aui-btn-block" id="weichat">专属客服微信：---</div>
+            </p> -->
+        </div>
+        <div class="aui-content-padded">
+          <p style="color:#fff" class="aui-text-center">
+            注：提现金额少于100元，须扣除1元手续费。
+          </p>
+        </div>
+    </div>
+    <div class="tishi"><span id="tishi"></span></div>
+  <div class="middle" style="padding: 0.6rem;background-color: rgba(95, 96, 91, 0.7) !important;margin: 0 auto;font-size: 0.6rem;border-radius: 0.5rem;color: white;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);"></div>
+  <div class="bg"></div>
+	<div class="tanchu">
+		<p class="tanchu_title" style="font-size: 1.3rem;color: #000;"></p>
+		<p class="tanchu_msg" style="font-size: .9rem;margin-top: .6rem;color: #000;"></p>
+		<p style="font-size: .8rem;color: #4FA81F;text-align: right;margin-top: 1.6rem;" onclick="bgHide()">确定</p>
+	</div>
+
+
+</body>
+<script type="text/javascript" src="../script/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+    function closeWin(){
+        window.history.back();
+    }
+    $(".tishi").hide();
+    $(".bg").hide();
+    $(".tanchu").hide();
+    $(".middle").hide();
+    var user_id = localStorage.getItem('user_id');
+    var api_url = localStorage.getItem('api_url');
+//  apiready = function() {
+//      api.parseTapmode();
+//      newLoingdata();
+//  }
+
+    function newLoingdata() {
+        api.ajax({
+            url: api_url + '/login/login/veifys.html',
+            method: 'get',
+            data: {
+                values: {
+                    username: localStorage.getItem('user_name'),
+                    passwd: localStorage.getItem('password'),
+                    imei: api.deviceId
+                }
+            }
+        }, function(ret, err) {
+            if (ret) {
+                if (ret.code == 0) {
+                    /* alert('出错了，请尝试重新登录');
+                       return;
+            			  */
+                    api.openWin({
+                        name: 'login',
+                        url: './login.html',
+                        delay: 300
+                    });
+                    return;
+                } else if (ret.code == 1) {
+                    localStorage.setItem('user_id', ret.msg['id']);
+                    localStorage.setItem('user_time', ret.msg['time']);
+                    localStorage.setItem('user_share', ret.msg['share']);
+                    localStorage.setItem('user_advert', ret.msg['advert']);
+                    localStorage.setItem('user_code', ret.msg['code']);
+                    localStorage.setItem('user_weichat', ret.msg['weichat']);
+                    localStorage.setItem('url', ret.msg['url']);
+                    localStorage.setItem('url1', ret.msg['url1']);
+                    localStorage.setItem('url2', ret.msg['url2']);
+                    localStorage.setItem('url3', ret.msg['url3']);
+                    localStorage.setItem('url4', ret.msg['url4']);
+                    localStorage.setItem('url5', ret.msg['url5']);
+                    localStorage.setItem('url6', ret.msg['url6']);
+                    // var weichatdiv = $api.byId('weichat');
+                    // weichatdiv.innerHTML = '客服微信：' + localStorage.getItem('user_weichat');
+                    api.sendEvent({
+                        name: 'newLoingdata',
+                        extra: {}
+                    });
+
+                    var bonus = $api.byId('bonus');
+                    bonus.innerHTML = '￥'+ret.msg['bonus'];
+                }
+            } else {
+                alert('网络错误！');
+                return;
+            }
+        });
+    }
+
+    // 申请
+    function loginOff() {
+        var amount = $('#amount').val();
+        var name = $('#name').val();
+        var account = $('#account').val();
+        if (amount == '') {
+//          api.toast({
+//              msg: 'ε=(´ο｀*))) 调皮~   提现金额还没输入',
+//              duration: 5000
+//          });
+            tishi('ε=(´ο｀*))) 调皮~&nbsp;&nbsp;&nbsp;提现金额还没输入',5000);
+            return;
+        }
+
+        if (account == '') {
+//          api.toast({
+//              msg: 'ε=(´ο｀*))) 调皮~   支付宝账号还没输入',
+//              duration: 5000
+//          });
+            tishi('ε=(´ο｀*))) 调皮~&nbsp;&nbsp;&nbsp;支付宝账号还没输入',5000);
+            return;
+        }
+
+        if (name == '') {
+//          api.toast({
+//              msg: 'ε=(´ο｀*))) 调皮~   支付宝名称还没输入',
+//              duration: 5000
+//          });
+            tishi('ε=(´ο｀*))) 调皮~&nbsp;&nbsp;&nbsp;支付宝名称还没输入',5000);
+            return;
+        }
+
+        if (user_id < 1) {
+//          alert('请先登录');
+            tanChu('提示','请先登录');
+//          api.openWin({
+//              name: 'login',
+//              url: './login.html',
+//          });
+            window.location.href = "./login.html";
+            return;
+        } else {
+//          api.showProgress({
+//              title: '保存中...',
+//              text: '请骚等...',
+//              modal: false
+//          });
+//          api.ajax({
+//              url: api_url + '/login/login/withdraw.html',
+//              method: 'get',
+//              data: {
+//                  values: {
+//                      uid: localStorage.getItem('user_id'),
+//                      amount: amount,
+//                      account: account,
+//                      name: name,
+//                  }
+//              }
+//          }, function(ret, err) {
+//              if (ret) {
+//                  if (ret.code == 0) {
+//                      api.hideProgress();
+//                      api.alert({
+//                          title: '哎呀~',
+//                          msg: ret.msg,
+//                      });
+//                      return;
+//                  } else if (ret.code == 1) {
+//                      api.hideProgress();
+//                      api.alert({
+//                          title: '恭喜!',
+//                          msg: '申请成功',
+//                      });
+//                      api.sendEvent({
+//                          name: 'newLoingdata',
+//                          extra: {}
+//                      });
+//                      api.closeWin();
+//                  }
+//
+//              } else {
+//                  api.hideProgress();
+//                  api.alert({
+//                      title: '糟糕~',
+//                      msg: '网络似乎有点问题',
+//                  });
+//              }
+//          });
+
+        }
+    }
+    function tanChu(title,msg) {
+    	$(".bg").show();
+    	$(".tanchu").show();
+    	$(".tanchu_title").html(title);
+    	$(".tanchu_msg").html(msg);
+    }
+    function bgHide() {
+    	$(".bg").hide();
+    	$(".tanchu").hide();
+    }
+    function tishi(content,time) {
+		$("#tishi").html(content);
+		$(".tishi").addClass("animated fadeInUp").show();
+		setTimeout(function() {
+			$(".tishi").removeClass("animated fadeInUp").hide();
+		}, time);
+	}
+    function jump() {
+    	window.location.href = "./login.html";
+    }
+</script>
+</html>
