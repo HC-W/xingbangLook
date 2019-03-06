@@ -125,19 +125,9 @@ function loginTo() {
 		return;
 	}
 	if(password == '') {
-//		$("#tishi").html("ε=(´ο｀*))) 哎呀~&nbsp;&nbsp;&nbsp;密码还没输入");
-//		$(".tishi").addClass("animated fadeInUp").show();
-//		setTimeout(function() {
-//			$(".tishi").removeClass("animated fadeInUp").hide();
-//		}, 5000);
 		tishi("ε=(´ο｀*))) 哎呀~&nbsp;&nbsp;&nbsp;密码还没输入",5000);
 		return;
 	}
-//	$("#tishi").html("ヾ(◍°∇°◍)ﾉ&nbsp;&nbsp;&nbsp;努力验证中……");
-//	$(".tishi").addClass("animated fadeInUp").show();
-//	setTimeout(function() {
-//		$(".tishi").removeClass("animated fadeInUp").hide();
-//	}, 5000);
 	tishi("ヾ(◍°∇°◍)ﾉ&nbsp;&nbsp;&nbsp;努力验证中……",5000);
 	//请求数据库并存储用户信息
 	var api_url = localStorage.getItem('api_url');
@@ -161,7 +151,7 @@ function loginTo() {
 					//                  msg: '(ｷ｀ﾟДﾟ´)!! 账号或密码不正确',
 					//                  duration: 5000
 					//              });
-					tihsi("(ｷ｀ﾟДﾟ´)!! 账号或密码不正确");
+					tishi("(ｷ｀ﾟДﾟ´)!! 账号或密码不正确",3000);
 
 					return;
 				} else if(ret.code == 1) {
@@ -187,7 +177,11 @@ function loginTo() {
 					localStorage.setItem('url2', ret.msg['url2']);
 					localStorage.setItem('url3', ret.msg['url3']);
 					localStorage.setItem('url4', ret.msg['url4']);
-					window.location.href = document.referrer;
+					//返回上一页并对上一页进行刷新
+					setTimeout(function() {
+						window.location.href = document.referrer;
+					},1000);
+					
 					//                api.sendEvent({
 					//                  name: 'newLoingdata',
 					//                  extra: {

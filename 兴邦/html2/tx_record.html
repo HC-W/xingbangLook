@@ -5,13 +5,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>title</title>
+    <title>txRecord</title>
       <link rel="stylesheet" type="text/css" href="../css/aui.css" />  
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" type="text/css" href="../css/style.css" />
     <link rel="stylesheet" href="../css/zhibo.css">
 
     <style>
+    	.aui-tab {
+    		background-color: transparent;
+    		display: block;
+    	}
         /*新加空提示信息*/
 
         .m-noRecord {
@@ -516,7 +520,7 @@
         <div class="tab-panel">
             <div class="tab-panel-item tab-active">
                 <div class="tab-item" id="div_list">
-                    <!-- <a class="aui-flex b-line">
+                     <!--<a class="aui-flex b-line">
                         <div class="aui-flex-box">
                             <p>
                                 <em class="aui-group-three" style=" font-size:16px; "> 全国电视直播</em>
@@ -558,46 +562,54 @@
     {{~}}
 </script>
 
-<script type="text/javascript" src="../script/api.js"></script>
+<!--<script type="text/javascript" src="../script/api.js"></script>-->
+<script type="text/javascript" src="../script/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="../script/doT.js"></script>
 <script type="text/javascript">
     var imgdz = '';
     var api_url = localStorage.getItem('api_url');
     var type = 0;
     var page = 1;
+    function closeWin(){
+        window.history.back();
+    }
 
     /////  初始化执行   S /////
     /////  apiready  一打开就执行的 函数
-    apiready = function() {
-        type = api.pageParam.type;
+//  apiready = function() {
+//      type = api.pageParam.type;
         // alert('frm:'+type);
-        // getList(); //调用流水列表
-    }
+           getList(); //调用流水列表
+//  }
 
     /////  初始化执行   E /////
 
     //////////////////////   获取电视TV直播列表  方法   getList    S //////////////////////
     function getList() {
-        api.showProgress({
-            title: '加载中...',
-            modal: false
-        });
-        var div_list = $api.byId('div_list');
-        var template = $api.byId('template');
-        api.ajax({
-            url:api_url + '/login/login/bonusFlow.html?uid='+localStorage.getItem('user_id')+'&type='+type+'&page='+page,
-            method: 'get',
-        }, function(ret, err) {
-            if (ret) {
-                //alert( JSON.stringify( ret ) );
-                var pagefn = doT.template(template.text);
-                div_list.innerHTML = pagefn(ret);
-                api.hideProgress();
-                page++;
-            } else {
-                api.hideProgress();
-                //alert( JSON.stringify( err ) );
-            }
+//      api.showProgress({
+//          title: '加载中...',
+//          modal: false
+//      });
+		//积分记录type为1，提现记录type为0
+        var div_list = $('#div_list');
+        var template = $('#template');
+        $.ajax({
+            url:api_url + '/login/login/bonusFlow.html?uid='+localStorage.getItem('user_id')+'&type=0&page='+page,
+            type: 'get',
+            dataType: "json",
+            success: function(ret) {
+//          	console.log(ret);
+	            if (ret) {
+	                //alert( JSON.stringify( ret ) );
+	                var pagefn = doT.template(template.html());
+	                div_list[0].innerHTML = pagefn(ret);
+//	                api.hideProgress();
+	                page++;
+	            } else {
+//	                api.hideProgress();
+	                //alert( JSON.stringify( err ) );
+	            }
+	        }
         });
     }
 
@@ -614,32 +626,34 @@
 
     //判断是否服务器通信成功
     function GetTvlistDataLoading() {
-        api.ajax({
+        $.ajax({
             url: api_url + '/login/login/banben.html',
-            method: 'get'
-        }, function(ret, err) {
-            if (ret) {
-
-                getList(); //获取电视直播列表
-                //alert( JSON.stringify( ret ) );
-                /*  关闭提示
-                        api.toast({
-                            msg: '数据已更新',
-                            duration: 1000
-                        });
-                */
-
-                clearInterval(GetTvlistTimer); // 获取成功 清除定时器
-            }
-            /*else {
-                   api.toast({
-                       msg: '数据获取失败 请检查网络',
-                       duration: 1000
-                   });
-
-                     //alert( JSON.stringify( err ) );
-                 }
-                 */
+            type: 'get',
+            dataType: 'json',
+            success: function(ret) {
+	            if (ret) {
+	
+	                getList(); //获取电视直播列表
+	                //alert( JSON.stringify( ret ) );
+	                /*  关闭提示
+	                        api.toast({
+	                            msg: '数据已更新',
+	                            duration: 1000
+	                        });
+	                */
+	
+	                clearInterval(GetTvlistTimer); // 获取成功 清除定时器
+	            }
+	            /*else {
+	                   api.toast({
+	                       msg: '数据获取失败 请检查网络',
+	                       duration: 1000
+	                   });
+	
+	                     //alert( JSON.stringify( err ) );
+	                 }
+	                 */
+	        }
         });
     }
 

@@ -81,6 +81,14 @@
     </tbody>
   </table>
 </section>
+<div class="tishi"><span id="tishi"></span></div>
+  <div class="middle" style="padding: 0.6rem;background-color: rgba(95, 96, 91, 0.7) !important;margin: 0 auto;font-size: 0.6rem;border-radius: 0.5rem;color: white;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);"></div>
+        <div class="bg"></div>
+        <div class="tanchu">
+			<p class="tanchu_title" style="font-size: 1.3rem;color: #000;"></p>
+			<p class="tanchu_msg" style="font-size: .9rem;margin-top: .6rem;color: #000;"></p>
+			<p style="font-size: .8rem;color: #4FA81F;text-align: right;margin-top: 1.6rem;" onclick="bgHide()">确定</p>
+		</div>
 	</body>
 	<script type="text/x-dot-template" id="template">
 {{~ it : value : index }}
@@ -98,64 +106,97 @@
 {{~}}
 </script>
 <script type="text/javascript" src="../script/api.js"></script>
+<script src="../script/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="../script/doT.js"></script>
 <script type="text/javascript">
 
 var api_url = localStorage.getItem('api_url');
+$(".tishi").hide();
+    $(".middle").hide();
+	$(".tanchu").hide();
+	$(".bg").hide();
 /////  初始化执行   S /////
 /////  apiready  一打开就执行的 函数
-apiready = function() {
+//apiready = function() {
     getData(); //调用流水列表
-}
+//}
  function closeWin(){
         window.history.back();
     }
+ function tanChu(title,msg) {
+    	$(".bg").show();
+    	$(".tanchu").show();
+    	$(".tanchu_title").html(title);
+    	$(".tanchu_msg").html(msg);
+    }
+	function bgHide() {
+    	$(".bg").hide();
+    	$(".tanchu").hide();
+    }
+	function wifiHide() {
+		$(".bg").hide();
+    	$(".wifi").hide();
+	}
+	function tishi(content,time) {
+		$("#tishi").html(content);
+		$(".tishi").addClass("animated fadeInUp").show();
+		setTimeout(function() {
+			$(".tishi").removeClass("animated fadeInUp").hide();
+		}, time);
+	}
 /////  初始化执行   E /////
 
 //////////////////////   获取电视TV直播列表  方法   getList    S //////////////////////
 function getData() {
-  var recNum = $api.byId('recNum');
-  var groupNum = $api.byId('groupNum');
+  var recNum = $('#recNum');
+  var groupNum = $('#groupNum');
 
-    api.showProgress({
-        title: '加载中...',
-        modal: false
-    });
-    var div_list = $api.byId('div_list');
-    api.ajax({
+//  api.showProgress({
+//      title: '加载中...',
+//      modal: false
+//  });
+    var div_list = $('#div_list');
+    $.ajax({
         url:  api_url + '/login/login/getGroupNum.html?uid='+localStorage.getItem('user_id'),
-        method: 'get',
-    }, function(ret, err) {
-        api.hideProgress();
-        if (ret) {
-            //alert( JSON.stringify( ret ) );
-            if(ret.code){
-              groupNum.innerHTML = ret.msg.group_num;
-              recNum.innerHTML = ret.msg.rec_num;
-              var children = ret.msg.children;
-              // children = [{"username":"18721045369","is_active":0,"cdate":"2018-12-23 12:00:00"},{"username":"18721045369","is_active":1,"cdate":"2018-12-23 12:00:00"}];
-              if(children.length){
-                var pagefn = doT.template(template.text);
-                // alert(pagefn);
-                div_list.innerHTML = pagefn(children);
-              }else {
-                div_list.innerHTML = '<tr><td colspan="3">暂无推荐会员</td></tr>'
-              }
-            }else {
-              api.alert({
-                  title: '糟糕~',
-                  msg: ret.msg,
-              });
-              return;
-            }
-        } else {
-            //alert( JSON.stringify( err ) );
-            api.alert({
-                title: '糟糕~',
-                msg: err,
-            });
-            return;
-        }
+        type: 'get',
+        dataType: 'json',
+        success: function(ret,err) {
+//      api.hideProgress();
+	        if (ret) {
+	            //alert( JSON.stringify( ret ) );
+	            if(ret.code){
+	              groupNum[0].innerHTML = ret.msg.group_num;
+	              recNum[0].innerHTML = ret.msg.rec_num;
+	              var children = ret.msg.children;
+	              // children = [{"username":"18721045369","is_active":0,"cdate":"2018-12-23 12:00:00"},{"username":"18721045369","is_active":1,"cdate":"2018-12-23 12:00:00"}];
+	              if(children.length){
+	                var pagefn = doT.template(template.text);
+	                // alert(pagefn);
+	                div_list[0].innerHTML = pagefn(children);
+	              }else {
+	                div_list[0].innerHTML = '<tr><td colspan="3">暂无推荐会员</td></tr>'
+	              }
+	            }else {
+//	              api.alert({
+//	                  title: '糟糕~',
+//	                  msg: ret.msg,
+//	              });
+	              tanChu('糟糕~',ret.msg);
+	              return;
+	            }
+	        }else {
+	            //alert( JSON.stringify( err ) );
+//	            api.alert({
+//	                title: '糟糕~',
+//	                msg: err,
+//	            });
+	            tanChu('糟糕~',err);
+	            return;
+	        }
+	    },
+	    error: function(err) {
+	    	tanChu('糟糕~',err);
+	    }
     });
 }
 
@@ -171,31 +212,33 @@ var GetTvlistTimer = setInterval(function() {
 
 //判断是否服务器通信成功
 function GetTvlistDataLoading() {
-    api.ajax({
+    $.ajax({
         url: api_url + '/login/login/banben.html',
-        method: 'get'
-    }, function(ret, err) {
-        if (ret) {
-
-            getData(); //获取电视直播列表
-            //alert( JSON.stringify( ret ) );
-            /*  关闭提示
-                    api.toast({
-                        msg: '数据已更新',
-                        duration: 1000
-                    });
-            */
-            clearInterval(GetTvlistTimer); // 获取成功 清除定时器
-        }
-        /*else {
-               api.toast({
-                   msg: '数据获取失败 请检查网络',
-                   duration: 1000
-               });
-
-                 //alert( JSON.stringify( err ) );
-             }
-             */
+        type: 'get',
+        dataType: 'json',
+        success:function(ret, err) {
+	        if (ret) {
+	
+	            getData(); //获取电视直播列表
+	            //alert( JSON.stringify( ret ) );
+	            /*  关闭提示
+	                    api.toast({
+	                        msg: '数据已更新',
+	                        duration: 1000
+	                    });
+	            */
+	            clearInterval(GetTvlistTimer); // 获取成功 清除定时器
+	        }
+	        /*else {
+	               api.toast({
+	                   msg: '数据获取失败 请检查网络',
+	                   duration: 1000
+	               });
+	
+	                 //alert( JSON.stringify( err ) );
+	             }
+	             */
+	    }
     });
 }
 

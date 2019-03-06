@@ -8,6 +8,8 @@
     <link rel="stylesheet" type="text/css" href="../css/aui.css" />
     <link rel="stylesheet" type="text/css" href="../css/style.css"/>
     <link rel="stylesheet" type="text/css" href="../css/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/animate.css@3.5.2/animate.min.css" />
+
 </head>
 <body class="login-bg2">
   <header class="aui-bar aui-bar-nav" id="aui-header" style="background-color:rgba(0,0,0,0) !important">
@@ -167,96 +169,104 @@
       $.ajax({
           url: 'https://kankan.51xingbang.com/login/login/create.html',
           type: 'get',
+          dataType: 'json',
           data: {
               name: username,
               password:password,
 			  share:share
-          }
-      },function(ret, err){
-          if (ret) {
-              if (ret.code == 0) {
-//              api.hideProgress();
-                api.alert({
-                    title: '错误~',
-                    msg: ret.msg,
-                });
-                tanChu('错误~',ret.msg);
-              }else {
-
-//              api.hideProgress();
-//              api.alert({
-//                  title: '注册成功！',
-//                  msg: '当前身份：体验会员',
-//              });
-                tanChu('注册成功！','当前身份：体验会员');
-//              api.closeWin({
-//                  name: 'login'
-//              });
-                //openLogin();
-                
-//				返回到会员中心页面,并刷新
-
-                $.ajax({
-                    url: 'https://kankan.51xingbang.com/login/login/veifys.html',
-                    type: 'get',
-                    data: {
-                        username: username,
-                        passwd: password,
-//                          imei:api.deviceId
-                    }
-                },function(ret, err){
-                    if (ret) {
-                      if (ret.code == 0) {
-//                      api.hideProgress();
-						tanChu('','账号或密码不正确');
-//                      alert('账号或密码不正确');
-                        return;
-                      }else if (ret.code == 1) {
-                        //alert( JSON.stringify( ret ) );
-                          localStorage.setItem('user_id',ret.msg['id']);
-                          localStorage.setItem('user_name',username);
-                          localStorage.setItem('password',password);
-                          localStorage.setItem('user_time',ret.msg['time']);
-                          localStorage.setItem('user_share',ret.msg['share']);
-                          localStorage.setItem('user_advert',ret.msg['advert']);
-                          localStorage.setItem('user_code',ret.msg['code']);
-                          localStorage.setItem('user_weichat',ret.msg['weichat']);
-                          localStorage.setItem('url',ret.msg['url']);
-                          localStorage.setItem('url1',ret.msg['url1']);
-                          localStorage.setItem('url2',ret.msg['url2']);
-                          localStorage.setItem('url3',ret.msg['url3']);
-                          localStorage.setItem('url4',ret.msg['url4']);
-//                        api.sendEvent({
-//                          name: 'newLoingdata',
-//                          extra: {
-//                          }
-//                        });
-
-
-//                        api.hideProgress();
-                          //alert('登录成功');
-
-//                        api.closeWin();
-                      }
-                    } else {
-                      api.hideProgress();
-                      alert('网络错误！');
-                      //alert( JSON.stringify( err ) );
-                      return;
-                    }
-                });
-
-
-//              api.closeWin();
-              }
-          } else {
-//          api.hideProgress();
-//          api.alert({
-//              title: '糟糕~',
-//              msg: '网络错误！',
-//          });
-            tanChu('糟糕~','网络错误！');
-          }
+          },
+          success: function(ret) {
+	          if (ret) {
+	              if (ret.code == 0) {
+	//              api.hideProgress();
+//	                api.alert({
+//	                    title: '错误~',
+//	                    msg: ret.msg,
+//	                });
+	                tanChu('错误~',ret.msg);
+	              }else {
+	
+	//              api.hideProgress();
+	//              api.alert({
+	//                  title: '注册成功！',
+	//                  msg: '当前身份：体验会员',
+	//              });
+	                tanChu('注册成功！','当前身份：体验会员');
+	//              api.closeWin({
+	//                  name: 'login'
+	//              });
+	                //openLogin();
+	                
+	//				返回到会员中心页面,并刷新
+	
+	                $.ajax({
+	                    url: 'https://kankan.51xingbang.com/login/login/veifys.html',
+	                    type: 'get',
+	                    dataType: 'json',
+	                    data: {
+	                        username: username,
+	                        passwd: password,
+	//                          imei:api.deviceId
+	                    },
+	                    success:function(ret){
+		                    if (ret) {
+		                      if (ret.code == 0) {
+		//                      api.hideProgress();
+								tanChu('','账号或密码不正确');
+		//                      alert('账号或密码不正确');
+		                        return;
+		                      }else if (ret.code == 1) {
+		                        //alert( JSON.stringify( ret ) );
+		                          localStorage.setItem('user_id',ret.msg['id']);
+		                          localStorage.setItem('user_name',username);
+		                          localStorage.setItem('password',password);
+		                          localStorage.setItem('user_time',ret.msg['time']);
+		                          localStorage.setItem('user_share',ret.msg['share']);
+		                          localStorage.setItem('user_advert',ret.msg['advert']);
+		                          localStorage.setItem('user_code',ret.msg['code']);
+		                          localStorage.setItem('user_weichat',ret.msg['weichat']);
+		                          localStorage.setItem('url',ret.msg['url']);
+		                          localStorage.setItem('url1',ret.msg['url1']);
+		                          localStorage.setItem('url2',ret.msg['url2']);
+		                          localStorage.setItem('url3',ret.msg['url3']);
+		                          localStorage.setItem('url4',ret.msg['url4']);
+		                          setTimeout(function() {
+										window.location.href = "./mine.html";
+									},2000);
+		//                        api.sendEvent({
+		//                          name: 'newLoingdata',
+		//                          extra: {
+		//                          }
+		//                        });
+		
+		
+		//                        api.hideProgress();
+		                          //alert('登录成功');
+		
+		//                        api.closeWin();
+		                      }
+		                    } else {
+	//	                      api.hideProgress();
+	//	                      alert('网络错误！');
+		                      tanChu('提示','网络错误！');
+		                      //alert( JSON.stringify( err ) );
+		                      return;
+		                    }
+		               }
+	                });
+	
+	
+	//              api.closeWin();
+	              }
+	          } else {
+	//          api.hideProgress();
+	//          api.alert({
+	//              title: '糟糕~',
+	//              msg: '网络错误！',
+	//          });
+	            tanChu('糟糕~','网络错误！');
+	          }
+	        }
       });
     }
 
@@ -309,37 +319,39 @@
       //alert(code_data);
       $.ajax({
           url: 'http://v.juhe.cn/sms/send?mobile='+username+'&tpl_id=898989tpl_value='+content+'&key=888888888888888888',
-          type: 'get'
-      },function(ret, err){
-        // if (ret) {
-        //   alert( JSON.stringify( ret ) );
-        // }else {
-        //   alert( JSON.stringify( err ) );
-        // }
-
-//            api.toast({
-//                msg: '发送成功',
-//                duration: 1000,
-//                location: 'middle'
-//            });
-              $(".middle").html("发送成功").show();
-				setTimeout(function() {
-					$(".middle").hide();
-				}, 1000);
-              var nuw = 60;
-              var timer = setInterval(function(){
-                nuw --;
-
-                if (nuw < 1) {
-                  btn1.html('获取');
-                  clearInterval(timer);
-                  onoff = true;
-                }else {
-                  btn1.html(nuw+'s');
-                }
-
-
-              },1000)
+          type: 'get',
+          dataType: 'json',
+          success:function(ret, err){
+	        // if (ret) {
+	        //   alert( JSON.stringify( ret ) );
+	        // }else {
+	        //   alert( JSON.stringify( err ) );
+	        // }
+	
+	//            api.toast({
+	//                msg: '发送成功',
+	//                duration: 1000,
+	//                location: 'middle'
+	//            });
+	              $(".middle").html("发送成功").show();
+					setTimeout(function() {
+						$(".middle").hide();
+					}, 1000);
+	              var nuw = 60;
+	              var timer = setInterval(function(){
+	                nuw --;
+	
+	                if (nuw < 1) {
+	                  btn1.html('获取');
+	                  clearInterval(timer);
+	                  onoff = true;
+	                }else {
+	                  btn1.html(nuw+'s');
+	                }
+	
+	
+	              },1000)
+	        }
       });
 
 

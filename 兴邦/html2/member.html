@@ -94,6 +94,7 @@
     function bgHide() {
     	$(".bg").hide();
     	$(".tanchu").hide();
+    	return true;
     }
     function tishi(content) {
 		$("#tishi").html(content);
@@ -163,42 +164,46 @@
       $.ajax({
           url: api_url+'/login/login/repass.html',
           type: 'get',
+          dataType: 'json',
           data: {
               username:username,
               password:password,
               key: yzcode
-          }
-      },function(ret, err){
-          if (ret) {
-              if (ret.code == 0) {
-//              api.alert({
-//                  title: '修改失败！',
-//                  msg: ret.msg,
-//              });
-                tanChu('修改失败！',ret.msg);
-              }else {
-                localStorage.setItem('password',password);
-//              api.alert({
-//                  title: '修改成功',
-//                  msg: '请重新登录！',
-//              });
-                tanChu('修改成功','请重新登录！');
-                window.location.href = document.referrer;
-//              api.sendEvent({
-//                name: 'outLogin',
-//                extra: {
-//                }
-//              });
-
-//              api.closeWin();
-              }
-          } else {
-//          api.alert({
-//              title: '糟糕~',
-//              msg: '网络错误！',
-//          });
-            tanChu('糟糕~','网络错误！');
-          }
+          },
+          success:function(ret, err){
+	          if (ret) {
+	              if (ret.code == 0) {
+	//              api.alert({
+	//                  title: '修改失败！',
+	//                  msg: ret.msg,
+	//              });
+	                tanChu('修改失败！',ret.msg);
+	              }else {
+	                localStorage.setItem('password',password);
+	//              api.alert({
+	//                  title: '修改成功',
+	//                  msg: '请重新登录！',
+	//              });
+	                tanChu('修改成功','请重新登录！');
+	                if(bgHide()) {
+	                	window.location.href = document.referrer;
+	                }
+	//              api.sendEvent({
+	//                name: 'outLogin',
+	//                extra: {
+	//                }
+	//              });
+	
+	//              api.closeWin();
+	              }
+	          } else {
+	//          api.alert({
+	//              title: '糟糕~',
+	//              msg: '网络错误！',
+	//          });
+	            tanChu('糟糕~','网络错误！');
+	          }
+	       }
       });
     }
 
@@ -254,20 +259,21 @@
           data: {
 	          username: username,
 	          key: code_data
-          }
-      },function(ret, err){
-        if (ret.code==0) {
-          onoff = true;
-//        api.alert({
-//            title: '提示',
-//            msg: ret.msg,
-//        });
-          tanChu('提示',ret.msg);
-          return;
-        }else {
-          // onoff = true;
-          getApicode(username,code_data);
-        }
+          },
+          success:function(ret, err){
+		        if (ret.code==0) {
+		          onoff = true;
+		//        api.alert({
+		//            title: '提示',
+		//            msg: ret.msg,
+		//        });
+		          tanChu('提示',ret.msg);
+		          return;
+		        }else {
+		          // onoff = true;
+		          getApicode(username,code_data);
+		        }
+		 }
       });
     }
     //生成验证码
@@ -283,42 +289,48 @@
       $.ajax({
         url: api_url + '/login/login/sendmsm.html',
         type: 'get',
+        dataType: 'json',
         data: {
             mobile: username,
             code: content
-        }
-      },function(ret, err){
-        if(ret.code){
-//        api.toast({
-//            msg: '发送成功',
-//            duration: 1000,
-//            location: 'middle'
-//        });
-			$(".middle").html("发送成功").show();
-			setTimeout(function() {
-				$(".middle").hide();
-			}, 1000);
-          var nuw = 120;
-          var timer = setInterval(function(){
-            nuw --;
-
-            if (nuw < 1) {
-              btn1.html('获取');
-              clearInterval(timer);
-              onoff = true;
-            }else {
-            	btn1.html(nuw+'s');
-//            btn1.innerHTML = nuw+'s';
-            }
-          },1000)
-        }else {
-//        api.alert({
-//            title: '提示',
-//            msg: ret.msg,
-//        });
-          tanChu('提示',ret.msg);
-          return;
-        }
+        },
+        success:function(ret){
+        	console.log(ret);
+	        if(ret.code){
+	//        api.toast({
+	//            msg: '发送成功',
+	//            duration: 1000,
+	//            location: 'middle'
+	//        });
+				$(".middle").html("发送成功").show();
+				setTimeout(function() {
+					$(".middle").hide();
+				}, 1000);
+	          var nuw = 120;
+	          var timer = setInterval(function(){
+	            nuw --;
+	
+	            if (nuw < 1) {
+	              btn1.html('获取');
+	              clearInterval(timer);
+	              onoff = true;
+	            }else {
+	            	btn1.html(nuw+'s');
+	//            btn1.innerHTML = nuw+'s';
+	            }
+	          },1000)
+	        }else {
+	//        api.alert({
+	//            title: '提示',
+	//            msg: ret.msg,
+	//        });
+	          tanChu('提示',ret.msg);
+	          return;
+	        }
+	    },
+	    error: function(err) {
+	    	console.log(err);
+	    }
 
       });
     }

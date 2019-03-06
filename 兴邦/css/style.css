@@ -23,8 +23,9 @@
 	border-radius: 0.5rem;
 	color: white;
 }
-.bg {width: 100%;height: 100%;background-color: rgba(0,0,0,0.6);position: fixed;top: 0;left: 0;z-index: 11;}
-.tanchu,.wifi {width: 80%;padding: 0.8rem 1rem;background-color: #fff;box-sizing: border-box;position: fixed;top: 50%;left: 50%;transform: translate(-50%, -50%);border-radius: 2px;z-index: 12;}
+.bg {width: 100%;height: 100%;background-color: rgba(0,0,0,0.6);position: fixed;top: 0;left: 0;z-index: 1800;}
+.tanchu,.wifi,.erweima {width: 85%;padding: 0.8rem 1rem;background-color: #fff;box-sizing: border-box;position: fixed;top: 50%;left: 50%;transform: translate(-50%, -50%);border-radius: 5px;z-index: 2000;}
+.erweima {width: 80%;z-index: 1900;}
 .hover{ opacity: .8; }
 
 .flex-wrap{ display: -webkit-box;	display: -webkit-flex;	display: flex; }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html style="display: table;">
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
@@ -7,9 +7,11 @@
     <link rel="stylesheet" type="text/css" href="../css/aui.css" />
     <link rel="stylesheet" type="text/css" href="../css/style.css"/>
     <link rel="stylesheet" type="text/css" href="../css/myui.css" />
-		<title></title>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/animate.css@3.5.2/animate.min.css" />
+
+		<title>share</title>
 	</head>
-	<body style="background-color:#5b3256">
+	<body style="background-color:#5b3256;">
 		<header class="aui-navBar aui-navBar-fixed" id="aui-header">
                     <a  onclick="closeWin()" class="aui-navBar-item aui-padded-t-15"  >
                   <i class="icon icon-back-b"></i>
@@ -31,11 +33,12 @@
     <div class="bigImg">
       <div class="getVip">
         <button onclick="erweima()">获取二维码</button>
-        <button onclick="copySet()">复制邀请链接</button>
+        <button class="btn">复制邀请链接</button>
+        <!--onclick="copySet()"-->
       </div>
     </div>
 
-    <div class="rule">
+    <div class="rule" style="margin-bottom: 2rem;">
     		<h3>
     		<p style="background:#5b3256; color:#FFF">
     			活动规则
@@ -48,8 +51,17 @@
     		</ul>
     	</div>
   </div>
+  <p id="lianjie" style="opacity: 0;z-index: -1;"></p>
   <div class="tishi"><span id="tishi"></span></div>
   <div class="bg"></div>
+  <div class="erweima" style="text-align: center;padding: 0.4rem 0;">
+  	<p style="color: #000;font-size: 0.7rem;">专属二维码</p>
+  	<img class="maImg" style="width: 100%;margin: auto;" src="" alt="" />
+  	<p>
+  		<span onclick="closeMa()" style="color: #007FFF;font-size: 0.6rem;letter-spacing: 1px;">关闭</span>
+  		<span onclick="shareMa()" style="margin-left: 7.5rem;color: #007FFF;font-size: 0.6rem;letter-spacing: 1px;">分享</span>
+  	</p>
+  </div>
   <div class="tanchu">
 		<p class="tanchu_title" style="font-size: 1.3rem;color: #000;"></p>
 		<p class="tanchu_msg" style="font-size: .9rem;margin-top: .6rem;color: #000;"></p>
@@ -58,6 +70,9 @@
 	</body>
 	<!--<script type="text/javascript" src="../script/api.js" ></script>-->
 	<script type="text/javascript" src="../script/jquery-3.2.1.min.js"></script>
+<script src="http://apps.bdimg.com/libs/jquery/1.8.3/jquery.js"></script> 
+<!--<script type='text/javascript' src="https://cdn.staticfile.org/clipboard.js/1.5.15/clipboard.min.js"></script>-->
+<script type="text/javascript" src="../script/clipboard.min.js"></script>
 <script type="text/javascript">
   var api_url = localStorage.getItem('api_url');
   var copy = '';
@@ -65,6 +80,7 @@
   $(".tishi").hide();
   $(".bg").hide();
   $(".tanchu").hide();
+$(".erweima").hide();
   
   function closeWin(){
         window.history.back();
@@ -76,8 +92,9 @@
     	$(".tanchu_msg").html(msg);
     }
     function bgHide() {
-    	$(".bg").hide();
+//  	$(".bg").hide();
     	$(".tanchu").hide();
+    	$(".bg").css("z-index","1800");
     }
      function tishi(content,time) {
 		$("#tishi").html(content);
@@ -86,7 +103,6 @@
 			$(".tishi").removeClass("animated fadeInUp").hide();
 		}, time);
 	}
-
 //apiready = function(){
 //  api.parseTapmode();
 //  api.showProgress({
@@ -94,29 +110,32 @@
 //      text: '请稍等...',
 //      modal: false
 //  });
-//	$.ajax({
-//		type:"get",
-//		url:api_url+'/login/login/share.html',
-//		dataType: 'json',
-//		data: {
-//          uid: localStorage.getItem('user_id')
-//     	},
-//     	success: function(res) {
-//     		if (ret) {
-//	            copy = ret.msg;
-//	            shama = ret.share;
-//	             //var url = $api.byId('url');
-//	             //var share = $api.byId('share');
-//	             //url.innerHTML = '<img src="http://qr.liantu.com/api.php?text='+ret.msg+'"/>';
-//	             //share.innerHTML = ret.share;
-////	            api.hideProgress();
-//	
-//	        } else {
-////	          alert('获取链接失败');
-//				tanChu('提示','获取链接失败');
-//	        }
-//     	}
-//	});
+	$.ajax({
+		type:"get",
+		url:api_url+'/login/login/share.html',
+		dataType: 'json',
+		data: {
+            uid: localStorage.getItem('user_id')
+       	},
+       	success: function(ret) {
+//     		console.log(ret);
+       		if (ret) {
+	            copy = ret.msg;
+	            shama = ret.share;
+	            $(".maImg").attr("src",'http://qr.liantu.com/api.php?text='+copy);
+	             //var url = $api.byId('url');
+	             //var share = $api.byId('share');
+	             //url.innerHTML = '<img src="http://qr.liantu.com/api.php?text='+ret.msg+'"/>';
+	             //share.innerHTML = ret.share;
+//	            api.hideProgress();
+				copySet();
+	
+	        } else {
+//	          alert('获取链接失败');
+				tanChu('提示','获取链接失败');
+	        }
+       	}
+	});
 
 
     /*api.ajax({
@@ -152,6 +171,8 @@
 
 //////////二维码//////////
   function erweima(){
+  	$(".erweima").show();
+  	$(".bg").show();
 //  var dialogBox = api.require('dialogBox');
 //  dialogBox.webView({
 //      tapClose: false,
@@ -207,7 +228,14 @@
 //  });
   }
 //////////二维码 //////////
-
+function closeMa() {
+	$(".erweima").hide();
+  	$(".bg").hide();
+}
+function shareMa() {
+	$(".bg").css("z-index","1950");
+	tanChu('提醒','请截屏后分享');
+}
 
 
 //////////复制分享链接 //////////
@@ -217,8 +245,11 @@
   		url:'http://suo.im/api.php?format=json&url='+copy,
   		dataType: 'json',
   		success: function(ret) {
+  			
   			if (ret) {
-
+  				console.log(ret);
+				$("#lianjie").html('【兴邦看看】全网VIP视频免费看，高清无广告，再也不用充值会员啦！APP下载地址：'+ret.url);
+				
 /*
   copy1 = ret.url;
   shama1 = ret.share;
@@ -243,7 +274,7 @@
 			
 			
 			} else {
-			
+				$("#lianjie").html('【兴邦看看】全网VIP视频免费看，高清无广告，再也不用充值会员啦！APP下载地址：'+ret.url);
 //			  var clipBoard = api.require('clipBoard');
 //			  clipBoard.set({
 //			      	value: '【兴邦看看】全网VIP视频免费看，高清无广告，再也不用充值会员啦！APP下载地址：'+copy
@@ -259,6 +290,22 @@
 //			  });
 			
 			}
+			var content = $("#lianjie").html();
+				var clipboard = new ClipboardJS('.btn', {
+					text: function() {
+						return content;
+					}
+				});
+				clipboard.on('success', function(e) {
+					tishi('已复制到剪切板',2000);
+				});
+			 
+				clipboard.on('error', function(e) {
+					console.log(e);
+				});
+		},
+		error:function(err) {
+			console.log(err);
 		}
 	});
 //  api.ajax({
@@ -317,7 +364,7 @@
 //  });
 
 
-  }
+ }
 //////////复制分享链接 //////////
 </script>
 </html>

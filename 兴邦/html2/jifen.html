@@ -5,13 +5,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>title</title>
+    <title>jifenRecord</title>
       <link rel="stylesheet" type="text/css" href="../css/aui.css" />  
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" type="text/css" href="../css/style.css" />
     <link rel="stylesheet" href="../css/zhibo.css">
 
     <style>
+    	.aui-tab {
+    		background-color: transparent;
+    		display: block;
+    	}
         /*新加空提示信息*/
 
         .m-noRecord {
@@ -516,7 +520,7 @@
         <div class="tab-panel">
             <div class="tab-panel-item tab-active">
                 <div class="tab-item" id="div_list">
-                    <!-- <a class="aui-flex b-line">
+                     <!--<a class="aui-flex b-line">
                         <div class="aui-flex-box">
                             <p>
                                 <em class="aui-group-three" style=" font-size:16px; "> 全国电视直播</em>
@@ -586,6 +590,7 @@
 //          title: '加载中...',
 //          modal: false
 //      });
+		//积分记录type为1，提现记录type为0
         var div_list = $('#div_list');
         var template = $('#template');
         $.ajax({
@@ -596,8 +601,9 @@
             	console.log(ret);
 	            if (ret) {
 	                //alert( JSON.stringify( ret ) );
-	                var pagefn = doT.template(template.text);
-	                div_list[0].innerHTML = pagefn(ret.msg.data);
+	                var pagefn = doT.template(template.html());
+	                div_list[0].innerHTML = pagefn(ret);
+	                console.log(ret.msg.data);
 //	                api.hideProgress();
 	                page++;
 	            } else {

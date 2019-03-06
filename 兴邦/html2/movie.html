@@ -198,12 +198,20 @@
         <div id="footer" class="border-t" style="background:#18192b">
             <ul class="flex-wrap" style="font-weight:bold">
                 <li tapmode="hover" class="flex-con active">影视</li>
-                <li tapmode="hover" onclick="openHtml('iframe');" class="flex-con">电视</li>
+                <li tapmode="hover" onclick="openHtml('video');" class="flex-con">电视</li>
                 <li tapmode="hover" onclick="openHtml('zhibo');" class="flex-con">直播</li>
                 <li tapmode="hover" onclick="openHtml('mine');" class="flex-con">我的</li>
             </ul>
         </div>
         <div class="tishi"><span id="tishi"></span></div>
+        <div class="wifi" style="text-align: center;">
+			<img src="../image/app/VipExpiredTisi.png" style="width: 30%;margin: auto;"/>
+			<p style="color: red;font-size: .7rem;margin: 1rem 0;letter-spacing: 0.5px;">超级视频VIP已过期</p>
+			<div>
+				<span onclick="think()" style="width:4rem;padding:.4rem 0;box-sizing: border-box;text-align:center;border-radius:0.3rem;margin:auto;color: #fff;font-size: .6rem;background-color: #3d3d3d;">再想想</span>
+				<span onclick="clearYes()" style="width:4rem;padding:.4rem 0;box-sizing: border-box;text-align:center;border-radius:0.3rem;margin:auto;margin-left:1.3rem;color: #fff;font-size: .6rem;background-color: #ff0103;">去续费</span>
+			</div>
+		</div>
   <div class="middle" style="padding: 0.6rem;background-color: rgba(95, 96, 91, 0.7) !important;margin: 0 auto;font-size: 0.6rem;border-radius: 0.5rem;color: white;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);"></div>
         <div class="bg"></div>
         <div class="tanchu">
@@ -258,18 +266,31 @@
 <script type="text/javascript" src="../script/auilazyload.js"></script>
 <script type="text/javascript">
 	 localStorage.setItem('api_url', "https://kankan.51xingbang.com");
+	 var user_id  = localStorage.getItem('user_id');
     var imgdz = '';
 
     var api_url = localStorage.getItem('api_url');
 	function openHtml(name) {
-		console.log(name);
-		window.location.href=name+".html";
+		if (name == 'video') {
+            openLive('http://m.miguvideo.com/wap/resource/migu/live/live-list.jsp');
+       } else {
+
+            if (user_id < 1 && name == 'mine') {
+                tishi('请先登录',1000);
+                setTimeout(function() {
+                    window.location.href="login.html";
+                }, 1000);
+                return;
+            }else {
+            	window.location.href=name+".html";
+            }
+        }
 	}
 	$(".tishi").hide();
-    $(".bg").hide();
 	$(".tanchu").hide();
 	$(".bg").hide();
 	$(".middle").hide();
+	$(".wifi").hide();
 	
 	function openTab(html) {
 		window.location.href=html+".html";
@@ -326,7 +347,7 @@
 		  url: "https://kankan.51xingbang.com/login/login/imgad.html",
 		  dataType:'json',
 		  success: function(ret) {
-		    console.log(ret);
+//		    console.log(ret);
 		    localStorage.setItem('fxpic1', ret.msg.fxpic1);
             localStorage.setItem('fxurl1', ret.msg.fxurl1);
             localStorage.setItem('fxpic2', ret.msg.fxpic2);
@@ -500,8 +521,9 @@
     */
 
     //////////////////////    会员过期提示  方法  VipExpiredHint   S  //////////////////////
-//  function VipExpiredHint() {
-
+    function VipExpiredHint() {
+		$(".bg").show();
+		$(".wifi").show();
 //      /*会员过期弹窗提示*/
 //      var dialogBox = api.require('dialogBox');
 //      dialogBox.alert({
@@ -569,9 +591,18 @@
 //      });
 //      /*    会员过期弹窗提示结束    */
 //
-//  }
+    }
     //////////////////////    会员过期提示 方法 VipExpiredHint  E  //////////////////////
+	function think() {
+		$(".bg").hide();
+		$(".wifi").hide();
+	}
+	function clearYes() {
+		$(".bg").hide();
+		$(".wifi").hide();
+		window.location.href="makevip.html";
 
+	}
 
 
 
@@ -774,72 +805,78 @@
 
 
     ///// 轮播图片访问  方法  toBanner   S  ////
-//  function toBanner(url) {
+    function toBanner(url) {
 
-//      if (url == '') {
-//
-//
+        if (url == '') {
+
+
 //          api.toast({
 //              msg: '暂无详情'
 //          });
-//
-//      } else {
-//
-//
-//          //网络连接判断S
-//
-//
-//          api.ajax({
-//              url: api_url + '/login/login/banben.html',
-//              method: 'get'
-//          }, function(ret, err) {
-//              if (ret) {
-//
-//                  //网络正常   跳转
-//
-//
-//
-//
-//
-//                  /*
-//                                               api.showProgress({
-//                                                   title: 'VIP登录中',
-//                                                   modal: false
-//                                               });
-//                                         */
-//                  api.toast({
-//                      msg: '加载中'
-//                  });
-//
-//
-//
-//                  api.openWin({
-//                      name: 'h5',
-//                      url: './h5.html',
-//                      pageParam: {
-//                          url: url
-//                      }
-//                  });
-//
-//
-//
-//
-//              } else {
-//
-//                  //网络连接失败 进行提示
-//                  //  NetworkConnectionFailurePrompt();
-//
-//                  api.toast({
-//                      msg: '请检查网络是否畅通'
-//                  });
-//              }
-//
-//
-//          });
-//          //网络连接判断E
-//
-//      }
-//  }
+            tishi('暂无详情',2000);
+
+        } else {
+
+
+            //网络连接判断S
+
+
+            $.ajax({
+                url: api_url + '/login/login/banben.html',
+                type: 'get',
+                dataType: 'json',
+                success: function(ret) {
+	                if (ret) {
+	
+	                    //网络正常   跳转
+	
+	
+	
+	
+	
+	                    /*
+	                                                 api.showProgress({
+	                                                     title: 'VIP登录中',
+	                                                     modal: false
+	                                                 });
+	                                           */
+	//                  api.toast({
+	//                      msg: '加载中'
+	//                  });
+	                    tishi('加载中',2000);
+	
+	
+	
+//	                    api.openWin({
+//	                        name: 'h5',
+//	                        url: './h5.html',
+//	                        pageParam: {
+//	                            url: url
+//	                        }
+//	                    });
+	                    window.location.href="iframe.html?iframe="+url;
+	
+	
+	
+	
+	                } else {
+	
+	                    //网络连接失败 进行提示
+	                    //  NetworkConnectionFailurePrompt();
+	
+	//                  api.toast({
+	//                      msg: '请检查网络是否畅通'
+	//                  });
+	                    tishi('请检查网络是否畅通',2000);
+	                }
+	            }
+
+
+            });
+            //网络连接判断E
+
+        }
+    }
 
     ///// 轮播图片访问  方法  toBanner   E  ////
 
@@ -847,158 +884,168 @@
 
 
     //////播放页打开  方法  openLive  S    //////////
-//  function openLive(url) {
-//      var time = localStorage.getItem('user_time');
-//      var user_id = localStorage.getItem('user_id');
-//      var username = localStorage.getItem('user_name');
-//      var timestamp = Date.parse(new Date()) / 1000;
-//      if (user_id < 1) {
-//
-//          /*    api.alert({
-//                  title: '温馨提示',
-//                  msg: '请先登陆后使用',
-//              });
-//
-//              原弹窗提示*/
-//
-//          /*新提示*/
+    function openLive(url) {
+        var time = localStorage.getItem('user_time');
+        var user_id = localStorage.getItem('user_id');
+        var username = localStorage.getItem('user_name');
+        var timestamp = Date.parse(new Date()) / 1000;
+        if (user_id < 1) {
+
+            /*    api.alert({
+                    title: '温馨提示',
+                    msg: '请先登陆后使用',
+                });
+
+                原弹窗提示*/
+
+            /*新提示*/
 //          api.toast({
 //              msg: '(ｷ｀ﾟДﾟ´)!!    你还没登陆！',
 //              duration: 5000
 //          });
+            tishi('(ｷ｀ﾟДﾟ´)!! &nbsp;&nbsp;&nbsp;&nbsp; 你还没登陆！',3000);
+            setTimeout(function() {
+            	window.location.href="login.html";
+            },2000);
 //          api.openWin({
 //              name: 'login',
 //              url: './login.html',
 //              delay: 2000
 //          });
-//          return;
-//
-//      }
-//
-//      if (time > timestamp) {
-//
-//
-//
-//
-//
-//          //网络连接判断S
-//
-//
-//          api.ajax({
-//              url: api_url + '/login/login/banben.html',
-//              method: 'get'
-//          }, function(ret, err) {
-//              if (ret) {
-//
-//                  //网络正常   跳转
-//
-//
-//
-//
-//
-//                  /*
-//                                                                                 api.showProgress({
-//                                                                                     title: 'VIP登录中',
-//                                                                                     modal: false
-//                                                                                 });
-//                                                                           */
-//                  // api.toast({
-//                  //     msg: 'VIP登录'
-//                  // });
-//
-//                  setTimeout("playRadio();", 1000);
-//                  var delay = 0;
-//                  if (api.systemType != 'ios') {
-//                      delay = 300;
-//                  }
-//                  api.openWin({
-//                      name: 'video_win',
-//                      url: './video_win.html',
-//                      delay: 800,
-//                      pageParam: {
-//                          url: url
-//                      },
-//                      bgColor: 'rgba(0,0,0,0)'
-//                  });
-//
-//
-//
-//
-//
-//              } else {
-//
-//                  //网络连接失败 进行提示
-//                  //      NetworkConnectionFailurePrompt();
-//
-//                  api.toast({
-//                      msg: '请检查网络是否畅通'
-//                  });
-//              }
-//
-//
-//          });
-//          //网络连接判断E
-//
-//
-//      } else if (time == -1) {
-//
-//          //网络连接判断S
-//
-//
-//          api.ajax({
-//              url: api_url + '/login/login/banben.html',
-//              method: 'get'
-//          }, function(ret, err) {
-//              if (ret) {
-//
-//                  //网络正常   跳转
-//
-//
-//
-//
-//                  // api.toast({
-//                  //     msg: '永久VIP登录'
-//                  // });
-//
-//                  setTimeout("playRadio();", 2000);
-//                  var delay = 0;
-//                  if (api.systemType != 'ios') {
-//                      delay = 300;
-//                  }
-//                  api.openWin({
-//                      name: 'video_win',
-//                      url: './video_win.html',
-//                      delay: 800,
-//                      pageParam: {
-//                          url: url
-//                      },
-//                      bgColor: '#000000'
-//                  });
-//
-//
-//
-//
-//
-//              } else {
-//
-//                  //网络连接失败 进行提示
-//                  //      NetworkConnectionFailurePrompt();
-//
-//                  api.toast({
-//                      msg: '请检查网络是否畅通'
-//                  });
-//              }
-//
-//
-//          });
-//          //网络连接判断E
-//
-//
-//      } else if (time < timestamp) {
-//          VipExpiredHint(); // 会员过期弹窗提示
-//      }
-//
-//  }
+            return;
+
+        }
+
+        if (time > timestamp) {
+
+
+
+
+
+            //网络连接判断S
+
+
+            $.ajax({
+                url: api_url + '/login/login/banben.html',
+                type: 'get',
+                dataType: 'json',
+                success: function(ret) {
+	                if (ret) {
+	
+	                    //网络正常   跳转
+	
+	
+	
+	
+	
+	                    /*
+	                                                                                   api.showProgress({
+	                                                                                       title: 'VIP登录中',
+	                                                                                       modal: false
+	                                                                                   });
+	                                                                             */
+	                    // api.toast({
+	                    //     msg: 'VIP登录'
+	                    // });
+	
+//	                    setTimeout("playRadio();", 1000);
+//	                    var delay = 0;
+//	                    if (api.systemType != 'ios') {
+//	                        delay = 300;
+//	                    }
+//	                    api.openWin({
+//	                        name: 'video_win',
+//	                        url: './video_win.html',
+//	                        delay: 800,
+//	                        pageParam: {
+//	                            url: url
+//	                        },
+//	                        bgColor: 'rgba(0,0,0,0)'
+//	                    });
+						window.location.href="video.html?url="+url;
+	
+	
+	
+	
+	
+	                } else {
+	
+	                    //网络连接失败 进行提示
+	                    //      NetworkConnectionFailurePrompt();
+	
+//	                    api.toast({
+//	                        msg: '请检查网络是否畅通'
+//	                    });
+	                    tishi('请检查网络是否畅通',2000);
+	                }
+				}
+
+            });
+            //网络连接判断E
+
+
+        } else if (time == -1) {
+
+            //网络连接判断S
+
+
+            $.ajax({
+                url: api_url + '/login/login/banben.html',
+                type: 'get',
+                dataType: 'json',
+                success:function(ret) {
+	                if (ret) {
+	
+	                    //网络正常   跳转
+	
+	
+	
+	
+	                    // api.toast({
+	                    //     msg: '永久VIP登录'
+	                    // });
+	                    window.location.href="video.html?url="+url;
+	
+//	                    setTimeout("playRadio();", 2000);
+//	                    var delay = 0;
+//	                    if (api.systemType != 'ios') {
+//	                        delay = 300;
+//	                    }
+//	                    api.openWin({
+//	                        name: 'video_win',
+//	                        url: './video_win.html',
+//	                        delay: 800,
+//	                        pageParam: {
+//	                            url: url
+//	                        },
+//	                        bgColor: '#000000'
+//	                    });
+	
+	
+	
+	
+	
+	                } else {
+	
+	                    //网络连接失败 进行提示
+	                    //      NetworkConnectionFailurePrompt();
+	
+//	                    api.toast({
+//	                        msg: '请检查网络是否畅通'
+//	                    });
+	                    tishi('请检查网络是否畅通',2000);
+	                }
+				}
+
+            });
+            //网络连接判断E
+
+
+        } else if (time < timestamp) {
+            VipExpiredHint(); // 会员过期弹窗提示
+        }
+
+    }
 
     //////播放页打开  方法  openLive  E    //////////
 
@@ -1007,12 +1054,13 @@
 
     ////////////未加载完成时点击按钮提示 方法   UnloadedCompleted   S   ////////////
 
-//  function UnloadedCompleted() {
+    function UnloadedCompleted() {
 
 //      api.toast({
 //          msg: '请检查网络是否畅通'
 //      });
-//  }
+        tishi('请检查网络是否畅通',2000);
+    }
 
     ////////////未加载完成时点击按钮提示 方法   UnloadedCompleted   E   ////////////
 
@@ -1052,55 +1100,60 @@
 //          //网络连接判断S
 //
 //
-//          api.ajax({
+//          $.ajax({
 //              url: api_url + '/login/login/banben.html',
-//              method: 'get'
-//          }, function(ret, err) {
-//              if (ret) {
-//
-//                  //网络正常   跳转
-//
-//
-//
-//
-//
-//                  /*
-//                                                                                         api.showProgress({
-//                                                                                             title: 'VIP登录中',
-//                                                                                             modal: false
-//                                                                                         });
-//                                                                                   */
-//                  api.toast({
-//                      msg: '加载中'
-//                  });
-//
-//
-//                  setTimeout("playRadio();", 1000);
-//                  var delay = 0;
-//                  if (api.systemType != 'ios') {
-//                      delay = 300;
-//                  }
-//
-//                  api.openWin({
-//                      name: 'h5',
-//                      url: './h5.html',
-//                      delay: 800,
-//                      pageParam: {
-//                          url: url
-//                      },
-//                      bgColor: 'rgba(0,0,0,0)'
-//                  });
-//
-//
-//
-//
-//              } else {
-//
-//                  //网络连接失败 进行提示
-//                  //      NetworkConnectionFailurePrompt();
-//
-//              }
-//
+//              type: 'get',
+//              dataType: 'json',
+//              success: function(ret) {
+//	                if (ret) {
+//	
+//	                    //网络正常   跳转
+//	
+//	
+//	
+//	
+//	
+//	                    /*
+//	                                                                                           api.showProgress({
+//	                                                                                               title: 'VIP登录中',
+//	                                                                                               modal: false
+//	                                                                                           });
+//	                                                                                     */
+////	                    api.toast({
+////	                        msg: '加载中'
+////	                    });
+//	                    tishi('加载中',2000);
+//	
+//	
+////	                    setTimeout("playRadio();", 1000);
+////	                    var delay = 0;
+////	                    if (api.systemType != 'ios') {
+////	                        delay = 300;
+////	                    }
+////	
+////	                    api.openWin({
+////	                        name: 'h5',
+////	                        url: './h5.html',
+////	                        delay: 800,
+////	                        pageParam: {
+////	                            url: url
+////	                        },
+////	                        bgColor: 'rgba(0,0,0,0)'
+////	                    });
+//	                    setTimeout(function() {
+//	                    	window.location.href="iframe.html?iframe="+url;
+//	                    },2000);
+//	
+//	
+//	
+//	
+//	                } else {
+//	
+//	                    //网络连接失败 进行提示
+//	                    //      NetworkConnectionFailurePrompt();
+//	
+//	                }
+//				}
 //
 //          });
 //          //网络连接判断E
@@ -1114,55 +1167,60 @@
 //          //网络连接判断S
 //
 //
-//          api.ajax({
+//          $.ajax({
 //              url: api_url + '/login/login/banben.html',
-//              method: 'get'
-//          }, function(ret, err) {
-//              if (ret) {
-//
-//                  //网络正常   跳转
-//
-//
-//
-//
-//
-//                  /*
-//                                                                                         api.showProgress({
-//                                                                                             title: 'VIP登录中',
-//                                                                                             modal: false
-//                                                                                         });
-//                                                                                   */
-//                  api.toast({
-//                      msg: '加载中'
-//                  });
-//
-//
-//                  setTimeout("playRadio();", 2000);
-//                  var delay = 0;
-//                  if (api.systemType != 'ios') {
-//                      delay = 300;
-//                  }
-//                  api.openWin({
-//                      name: 'h5',
-//                      url: './h5.html',
-//                      delay: 800,
-//                      pageParam: {
-//                          url: url
-//                      },
-//                      bgColor: '#000000'
-//                  });
-//
-//
-//
-//
-//
-//              } else {
-//
-//                  //网络连接失败 进行提示
-//                  //            NetworkConnectionFailurePrompt();
-//
-//              }
-//
+//              type: 'get',
+//              dataType: 'json',
+//              success: function(ret, err) {
+//	                if (ret) {
+//	
+//	                    //网络正常   跳转
+//	
+//	
+//	
+//	
+//	
+//	                    /*
+//	                                                                                           api.showProgress({
+//	                                                                                               title: 'VIP登录中',
+//	                                                                                               modal: false
+//	                                                                                           });
+//	                                                                                     */
+////	                    api.toast({
+////	                        msg: '加载中'
+////	                    });
+//	                    tishi('加载中',2000);
+//	
+//	
+////	                    setTimeout("playRadio();", 2000);
+////	                    var delay = 0;
+////	                    if (api.systemType != 'ios') {
+////	                        delay = 300;
+////	                    }
+////	                    api.openWin({
+////	                        name: 'h5',
+////	                        url: './h5.html',
+////	                        delay: 800,
+////	                        pageParam: {
+////	                            url: url
+////	                        },
+////	                        bgColor: '#000000'
+////	                    });
+//	                    setTimeout(function() {
+//	                    	window.location.href="iframe.html?iframe="+url;
+//	                    },2000);
+//	
+//	
+//	
+//	
+//	
+//	                } else {
+//	
+//	                    //网络连接失败 进行提示
+//	                    //            NetworkConnectionFailurePrompt();
+//	
+//	                }
+//				}
 //
 //          });
 //          //网络连接判断E

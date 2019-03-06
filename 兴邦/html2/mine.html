@@ -245,7 +245,7 @@
         <div id="footer" class="border-t" style="background:#18192b">
             <ul class="flex-wrap" style="font-weight:bold">
                 <li tapmode="hover" onclick="openTab('movie');" class="flex-con">影视</li>
-                <li tapmode="hover" onclick="openTab('');" class="flex-con">电视</li>
+                <li tapmode="hover" onclick="openTab('video');" class="flex-con">电视</li>
                 <li tapmode="hover" onclick="openTab('zhibo');" class="flex-con">直播</li>
                 <li tapmode="hover" class="flex-con active">我的</li>
             </ul>
@@ -268,6 +268,7 @@
 <script type="text/javascript" src="../script/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
 	var api_url = localStorage.getItem('api_url');
+	var user_id  = localStorage.getItem('user_id');
 	var rechargeUrl = '';
 	$(".tishi").hide();
     $(".middle").hide();
@@ -276,7 +277,21 @@
 	$(".wifi").hide();
 	
 	function openTab(html) {
-		window.location.href=html+".html";
+		if (html == 'video') {
+            openLive('http://m.miguvideo.com/wap/resource/migu/live/live-list.jsp');
+       } else {
+
+            if (user_id < 1 && html == 'mine') {
+                tishi('请先登录',1000);
+                setTimeout(function() {
+                    window.location.href="login.html";
+                }, 1000);
+                return;
+            }else {
+            	window.location.href=html+".html";
+            }
+        }
+		
 	}
 	function tanChu(title,msg) {
     	$(".bg").show();
@@ -2166,7 +2181,7 @@
 //				msg: '(ｷ｀ﾟДﾟ´)!!    你还没登陆！',
 //				duration: 5000
 //			});
-			tishi('(ｷ｀ﾟДﾟ´)!!&nbsp;&nbsp;&nbsp;&nbsp;你还没登陆！',5000);
+			tishi('(ｷ｀ﾟДﾟ´)!! &nbsp;&nbsp;&nbsp;&nbsp; 你还没登陆！',5000);
 //			api.openWin({
 //				name: 'login',
 //				url: './login.html',
@@ -2212,6 +2227,7 @@
 //							},
 //							bgColor: 'rgba(0,0,0,0)'
 //						});
+						window.location.href="video.html?url="+url;
 					} else {
 	
 						//网络连接失败 进行提示
