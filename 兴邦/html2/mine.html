@@ -281,15 +281,15 @@
             openLive('http://m.miguvideo.com/wap/resource/migu/live/live-list.jsp');
        } else {
 
-            if (user_id < 1 && html == 'mine') {
-                tishi('请先登录',1000);
-                setTimeout(function() {
-                    window.location.href="login.html";
-                }, 1000);
-                return;
-            }else {
+//          if (user_id < 1 && html == 'mine') {
+//              tishi('请先登录',1000);
+//              setTimeout(function() {
+//                  window.location.href="login.html";
+//              }, 1000);
+//              return;
+//          }else {
             	window.location.href=html+".html";
-            }
+//          }
         }
 		
 	}
@@ -307,12 +307,20 @@
 		$(".bg").hide();
     	$(".wifi").hide();
 	}
+	var loginTo = localStorage.getItem("loginTo");
 	function tishi(content,time) {
 		$("#tishi").html(content);
 		$(".tishi").addClass("animated fadeInUp").show();
 		setTimeout(function() {
 			$(".tishi").removeClass("animated fadeInUp").hide();
 		}, time);
+	}
+	if(user_id<1 && !loginTo) {
+		tishi("请先登录",2000);
+		localStorage.setItem("loginTo",true);
+		setTimeout(function() {
+			window.location.href="login.html";
+		},2000);
 	}
 
 	/////  初始化执行   S /////
@@ -686,7 +694,7 @@
 					uid: localStorage.getItem('user_id')
 				},
 				success: function(ret) {
-					console.log(ret);
+//					console.log(ret);
 					if (ret) {
 						var sign = $('#sign');
 						sign[0].innerHTML = ret.msg['share'] + '积分';
@@ -705,7 +713,7 @@
 					uid: localStorage.getItem('user_id')
 				},
 				success: function(ret) {
-					console.log(ret);
+//					console.log(ret);
 					if (ret) {
 						var bili = $('#bili');
 						jifenbi = ret.sign;
@@ -1054,14 +1062,15 @@
 
 	////////////清楚缓存 方法  cleaCache   S   ////////////
 
-//	function cleaCache() {
-//		api.clearCache(function() {
+	function cleaCache() {
+		api.clearCache(function() {
 //			api.toast({
 //				msg: '清除完成'
 //			});
-//			getCache();
-//		});
-//	}
+			tishi('清除完成',2000);
+			getCache();
+		});
+	}
 //	////////////清楚缓存 方法  cleaCache   E   ////////////
 //
 //	////////////计算缓存 方法  getCache   S   ////////////

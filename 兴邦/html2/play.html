@@ -1,10 +1,14 @@
 <!DOCTYPE HTML>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="content-type" content="audio/mpegurl"/>
+    <meta name="renderer" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=11"/>
     <title>正在播放</title>
     <link rel="stylesheet" type="text/css" href="../css/aui.css" />
     <link rel="stylesheet" type="text/css" href="../css/iconfont.css" />
@@ -45,7 +49,8 @@
                     </a> -->
 
     </header>
-    <iframe id="iframe" frameborder=0 style='width: 100%;' src=""></iframe>
+    <!--<video id="iframe" src=""></video>-->
+    <iframe id="iframe" frameborder=0 style='width: 100%;' src="" allowfullscreen="true"></iframe>
 
 </body>
 <!--<script type="text/javascript" src="../script/api.js"></script>-->
@@ -55,7 +60,7 @@
     var jx_url1 = localStorage.getItem('jx_url1');
     var jx_url2 = localStorage.getItem('jx_url2');
     var test = window.location.search;
-//  console.log(test);
+    console.log(test);
     var uu=[];
     var url,srcUrl,title,needRecordHistory,cid;
     var arr = test.split("?");
@@ -83,15 +88,21 @@
     		
     	}
     }
-    document.getElementsByTagName("title")[0].innerText = decodeURI(title);
+    title = decodeURI(title);
+    document.getElementsByTagName("title")[0].innerText = title;
 //  console.log(uu);
     url = uu[0]+"url="+uu[1]+"cid="+cid;
 //  console.log(url);
+//  console.log(srcUrl);
+//  console.log(title);
+//  console.log(needRecordHistory);
+//  console.log(cid);
     var innerHeight = window.innerHeight,
     	headHeight = parseFloat($("header").css("height"));
 //  console.log(innerHeight,headHeight);
     $("#iframe").css("height",innerHeight-headHeight+"px");
     $("#iframe").attr("src",url);
+    console.log($("#iframe")[0]);
 //  apiready = function() {
 //      api.parseTapmode();
 //      var header = $api.byId('aui-header');
@@ -133,12 +144,14 @@
 //                  break;
 //          };
 //      });
-//
-//      if (needRecordHistory) {
-//          record_play_history();
-//      } else {
-//
-//      }
+      ////////// 用于存储观看记录 //////////
+        if (needRecordHistory!='false') {
+        	console.log("need");
+            record_play_history();
+        } else {
+
+        }
+      ////////// 用于存储观看记录 //////////
 //  }
 //
 //  function getCaption(obj) {
@@ -201,21 +214,28 @@
 //      });
 //  }
 //
-//  function record_play_history() {
-//      //alert(api.pageParam.title);
-//      $.ajax({
-//          url: 'https://kankan.51xingbang.com/login/login/jilu?uid=3',
-//          type: 'get',
-//          dataType: 'json',
-//          data: {
-//              uid: localStorage.getItem('user_id'),
-//              title: title,
-//              url: srcUrl,
-//              time: new Date().format('yyyy-MM-dd hh:mm:ss'),
-//              ping: getPing(srcUrl)
-//          }
-//          success: function(ret, err) {}});
-//  }
+	//////////  数据请求，将观看记录中没有的记录保存上去 //////////
+    function record_play_history() {
+        //alert(api.pageParam.title);
+        console.log(url);
+        console.log(title);
+        console.log(srcUrl);
+        $.ajax({
+            url: 'https://kankan.51xingbang.com/login/login/jilu?uid=3',
+            type: 'get',
+            dataType: 'json',
+            data: {
+                uid: localStorage.getItem('user_id'),
+                title: title,
+                url: srcUrl,
+                time: new Date().format('yyyy-MM-dd hh:mm:ss'),
+                ping: getPing(srcUrl)
+            },
+            success: function(ret) {
+	
+			}
+		});
+    }
 //
     function getPing(url) {
         if (url.indexOf("youku.com") > 0) {

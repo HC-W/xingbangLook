@@ -118,11 +118,11 @@ $(".erweima").hide();
             uid: localStorage.getItem('user_id')
        	},
        	success: function(ret) {
-//     		console.log(ret);
+       		console.log(ret);
        		if (ret) {
 	            copy = ret.msg;
 	            shama = ret.share;
-	            $(".maImg").attr("src",'http://qr.liantu.com/api.php?text='+copy);
+	            $(".maImg").attr("src",'http://qr.liantu.com/api.php?text='+copy+ret.share);
 	             //var url = $api.byId('url');
 	             //var share = $api.byId('share');
 	             //url.innerHTML = '<img src="http://qr.liantu.com/api.php?text='+ret.msg+'"/>';
@@ -242,10 +242,10 @@ function shareMa() {
   function copySet(){
   	$.ajax({
   		type:"get",
-  		url:'http://suo.im/api.php?format=json&url='+copy,
+  		url:'http://suo.im/api.php?format=json&url='+copy+shama,
   		dataType: 'json',
   		success: function(ret) {
-  			
+  			console.log(ret);
   			if (ret) {
   				console.log(ret);
 				$("#lianjie").html('【兴邦看看】全网VIP视频免费看，高清无广告，再也不用充值会员啦！APP下载地址：'+ret.url);

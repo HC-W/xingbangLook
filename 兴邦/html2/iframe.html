@@ -8,6 +8,10 @@
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <link rel="stylesheet" type="text/css" href="../css/aui.css" />
     <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.3.0/video-js.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.3.0/video.min.js"></script>
+<script src="https://unpkg.com/videojs-flash/dist/videojs-flash.js"></script>
+<script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
     <style>
         body {}
 
@@ -56,7 +60,7 @@
     </header>
     <div id="err"></div>
     <div class="tishi"><span id="tishi"></span></div>
-    <iframe id="frame" allowfullscreen="true" allowtransparency="true" webkitallowfullscreen="true" mozallowfullscreen="true" allowscriptaccess="always" wmode="opaque" frameborder=0 style='width: 100%;' src=""></iframe>
+    <iframe id="frame" allowfullscreen="true" frameborder=0 style='width: 100%;' src=""></iframe>
 </body>
 <!--<script type="text/javascript" src="../script/api.js"></script>-->
 <script type="text/javascript" src="../script/jquery-3.2.1.min.js"></script>
@@ -77,7 +81,7 @@
     var page_title = "";
     var api_url = localStorage.getItem('api_url');
     var test = window.location.search.split("=")[1];
-//  var test = "http://m.iqiyi.com/vip";
+//  var test = "https://jx.618g.com/?url=https://m.v.qq.com/x/cover/h/ha7r9z89i9d234y.html?cid=undefined";
         console.log(test);
     var innerHeight = window.innerHeight,
     	headHeight = parseFloat($("header").css("height"));

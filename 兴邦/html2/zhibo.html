@@ -234,15 +234,15 @@
             openLive('http://m.miguvideo.com/wap/resource/migu/live/live-list.jsp');
        } else {
 
-            if (user_id < 1 && href == 'mine') {
-                tishi('请先登录',1000);
-                setTimeout(function() {
-                    window.location.href="login.html";
-                }, 1000);
-                return;
-            }else {
+//          if (user_id < 1 && href == 'mine') {
+//              tishi('请先登录',1000);
+//              setTimeout(function() {
+//                  window.location.href="login.html";
+//              }, 1000);
+//              return;
+//          }else {
             	window.location.href=href+".html";
-            }
+//          }
         }
 	}
 	$(".tishi").hide();
